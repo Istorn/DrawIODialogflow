@@ -1,0 +1,16 @@
+{
+  "name": "tesilaurea",
+  "version": "1.0.0",
+  "description": "Tesi di Laurea Dialogflow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lorenzo Neri",
+  "license": "MIT",
+  "keywords": [],
+  "dependencies": {
+    "dialogflow": "0.10.3",
+    "firebase-admin": "^8.3.0"
+  }
+}

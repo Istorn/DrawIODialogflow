@@ -1,0 +1,3 @@
+function parseGraph(graph){
+    
+}

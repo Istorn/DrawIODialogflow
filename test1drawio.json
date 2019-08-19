@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "test1drawio-ttlbdt",
+  "private_key_id": "7bd1f497c015fdd94d911645615f2e1621ef4780",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCqOHYe35Bpjr6L\nZHnFoMnNxjks3eJ0JcNBCwjLO63SLNVEFUHTA0Vj+SjUnWedesNmDNfosC7RI+2+\nws/4j5mWcJ4W199BE6d2wrFQ32KQOlzM7ooUpDrpsu8UfUrVtbFL4grSKPgpx7qU\nk1rU0ofSLnTsvbdPg9jZ7Z+WphUu+lu1Vy4+1QFprfifagYyLY+4mn719R72iFLC\ny2pHCkGdVw/gl6kYEZGdXVzroaN+ug3vhE/ATt3zniMOuRkHI9r7SqgJwtnJfk5d\n8UT8eXn7Wpxjbt4w4v5g2dMpSLdPLDSHNICwZtwtrfAjrDXw7ViVqDZNxcFS/dA1\nGPXCjYIVAgMBAAECggEAALOxZwCwgYLtbbk5GFPIqUDRQQpcMfLq6nR/cYkaNyTo\nrzpwNkzL5zTiknfgssFMF3pjlInPc5zUkOYQQfvjm/90Y2859DR+ywpT/VuidipL\ncivkpV+k/4w1mK3IlneEluXEeifhmBiDADRYWkrQ9RCsekJxBFKsnP9yGkaujS5I\n5Dk3bl54KCUTalYMhIVlk7pcJSvsJ22Bc355AiQWdc6yCbZDTxCRYpOnwn63AphS\nKdJGW0BJSaawyh1nwzqts+AJJeOFqncBRXT6rowaidYq7d0MSyx1RZ9FYQBel+M1\np3TOJq9DUgsfp1HeP7v1WItaVXrV5F5ky5IauzNGoQKBgQDUYwl9eaedSbpiRQFm\niRrO2vYSmraSoK/pC7RAptvFJVxRv+SAznThakfE7XKOV5ZvDlMnF8zOQvjj3ZV4\ngWOYsNSxOJlKBmse0rjROZXjeVe5lxQv5OILlPrZNNgKG/5ZXpuQ8CDBvA1hVV6P\nQVnTf34q6iGPwLILlGYjW+LzdQKBgQDNLMiwc85nGGPIKxQ33jOT/TLe8kUbg9+h\n116t5jBI8RUtC8/K6GWOq9K6qan8d5STJAh+mTdtStWdJ/Sdyj9CANJNFxln/SuX\nTlubSOTtegBEGdC0PoDhq2LiA9W1Pruro061+iOF59onm13tKRqqvO6383dR0nCO\nbh1XNDegIQKBgQDTGARstCfGi2s3FQMJWKhOhQ8i+qcQIan15W4o/C9fSXzyu9lv\ntMQy76GZt6+ujpu0kfZP2rXzJFmgkbJobaICN2+PHYQuMSbzIdoUCjpSN17b1a94\n0vNhM5gHnyBDHAO36/KPIjxMko5x+ZncpMWVExjhqoflC09rdvn1lvSBqQKBgGhC\nxKzd/FnpS/NQ6NJHCOC//tTKOhH0XnToc4Vc/tZiJAejA/GxTMJGUCxowSe5QHfR\nDLwAcekI6SoWPrjcKG8K6dMg1NlCDp+xwt1TGnoO0AnLMIIXbPjAVdxSZIvYmBdt\nQjc5KEoIepQ74Gv+wj1XCtvRTaX3kRjfnetNbqLhAoGBALgzK23ZRSiYc9yxBIEa\nFPnziHPneVybALiON/uQ56QewiW+jy0tmSZiKnBJogaxG+AArdNVzGq958qCZI4j\n9049DZCLnW4wDFCoy6A5ApxFvnJpKaPivLMu3e5mtf6QMqRrAFpUx61dmxnI0rpb\nLqQn5nPJ5dVeCfi0O7KtzavV\n-----END PRIVATE KEY-----\n",
+  "client_email": "dialogflow-aeiepk@test1drawio-ttlbdt.iam.gserviceaccount.com",
+  "client_id": "104430639733146163511",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow-aeiepk%40test1drawio-ttlbdt.iam.gserviceaccount.com"
+}
