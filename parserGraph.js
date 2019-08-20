@@ -102,7 +102,7 @@ module.exports={
 //Identifichiamo i parametri inseriti nella training phrase
 function splitTrainingPhrases(phrase,parameters){
     //In base a come sono state colorate le parole tipo nella frase, corrispondono ai corrispettivi parametri identificati in precedenza
-
+    
 }
 
 //Impostiamo i parametri in base ai colori e ai nomi
