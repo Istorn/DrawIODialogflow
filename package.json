@@ -11,6 +11,8 @@
   "keywords": [],
   "dependencies": {
     "dialogflow": "0.10.3",
-    "firebase-admin": "^8.3.0"
+    "firebase-admin": "^8.3.0",
+    "libxmljs": "^0.19.5",
+    "xml2js": "^0.4.19"
   }
 }

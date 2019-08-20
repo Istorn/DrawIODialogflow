@@ -1,3 +1,5 @@
-function parseGraph(graph){
+var libxmljs=require("libxmljs");
+module.exports=libxmljs.parseXml('./BOTXML/BotDiagram.xml');
     
-}
+
+
