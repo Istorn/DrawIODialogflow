@@ -51,10 +51,11 @@ module.exports={
                             var name=valueXML.substr(valueXML.indexOf("nome: ")+"nome: ".length,valueXML.indexOf("<br>")-"nome: ".length);
                             valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
                             if (valueXML.indexOf("parameters: ")>=0){
-                                //Ci sono variabili di input da prendere
+                                //Ci sono parameters da prendere
                                 var parameters=[];
                                 var stringParameters=valueXML.substr(valueXML.indexOf("parameters: ")+"parameters: ".length,valueXML.indexOf("<br>")-"parameters: ".length);
-                                stringParameters.split(",").forEach(element => {
+                                //Li normalizziamo
+                                stringParameters.split("§").forEach(element => {
                                     parameters.push(getParameterByXML(element));
                                 });
                                 valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
@@ -64,14 +65,21 @@ module.exports={
                             }
                             var phrases=[];
                             var stringPhrases=valueXML.substr(valueXML.indexOf("phrases: ")+"phrases: ".length,valueXML.indexOf("<br>")-"phrases: ".length);
-                            phrases=stringPhrases.split(",");
-                            //Per ogni frase, dobbiamo andare a prendere il parametro
-                            //Che poi diventeranno i parametri in base al colore
-                            //
+                            phrases=stringPhrases.split("§");
+                            //Dobbiamo dividere ogni frase in pezzi.
+                            //Il motivo è dato dalla eventuale presenza di termini chiave da associare ai parameters
+                            phrases=phrases.map((phrase)=>{
+                                return splitTrainingPhrase(phrase,parameters);
+                            });
     
     
                             valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
                             var risposte=valueXML.substr(valueXML.indexOf("risposta: ")+"risposta: ".length,valueXML.length-"risposta: ".length);
+                            //Lo stesso criterio, lo dobbiamo applicare alle risposte
+                            risposte=risposte.map((risposta)=>{
+                                return splitAnswer(risposta,parameters);
+                            });
+                            
                             //Creiamo l'intent
                             var intentXML=new ClassintentXML();
                             intentXML.id=graphXMLCells[i].ATTR.id;
@@ -99,12 +107,65 @@ module.exports={
     return agentXML;
 }}
 
-//Identifichiamo i parametri inseriti nella training phrase
-function splitTrainingPhrases(phrase,parameters){
-    //In base a come sono state colorate le parole tipo nella frase, corrispondono ai corrispettivi parametri identificati in precedenza
+//Dividiamo la training phrase per trovare eventuali termini chiave da associare ai parameters del nostro intent
+function splitTrainingPhrase(trainingPhrase,parameters){
+    
+    var splittedTrainingPhrase=[];
+
+
+
+    
+    var chars="";
+    //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
+    for (var i=0;i<trainingPhrase.length;i++){
+            //Leggiamo finchè non troviamo <font color="        
+        if ((trainingPhrase[i]=="<") && (trainingPhrase[i+1]=="f")){
+            //2- Abbiamo individuato un termine chiave
+            //Ma prima, verifichiamo se il buffer caratteri era pieno in precedenza
+            if (chars.length>0){
+                //Parte di frase normale
+                //Ci salviamo il pezzo di frase normale
+                splittedTrainingPhrase.push({
+                    text: chars
+                });
+
+                //Svuotiamo
+                chars="";
+            }
+            //È un termine chiave: ce lo andiamo a prendere
+            var termTAG=trainingPhrase.substr(i,trainingPhrase.indexOf("</font>")-i+"</font>".length);
+            //Andiamondiamo a verificare in base al colore a quale parameter associarlo
+            var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length+1,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
+            color=color.substr(0,color.indexOf("\">"));
+            //Andiamo a cercare nei parameters il parameter corrispondente
+            parameters.forEach((parameter)=>{
+                if (parameter.color==color){
+                    //L'abbiamo trovato, proseguiamo
+                    //In questo caso andiamo ad aggiungere il termine chiave ai valori del paramter in questione
+                    var value=termTAG.substr(termTAG.indexOf("\">")+"\">".length,termTAG.indexOf("</font>")-8);
+                    value=value.substr(0,value.indexOf("</font>"));   
+                    parameter.userValues.push(value);
+                    //E infine, aggiungiamo alla training phrase divisa
+                    splittedTrainingPhrase.push({
+                        text: value,
+                        entityType:"@"+parameter.name,
+                        alias:parameter.name,
+                    });
+                }
+            });
+            //Incrementiamo i per bypassare il pezzo appena considerato
+            i+=termTAG.length;
+        }
+        else{
+            //carattere normale da aggiungere
+            chars+=trainingPhrase[i];
+        }
+    }
+
+    //Torniamo la training phrase divisa opportunamente
+    return splittedTrainingPhrase;
     
 }
-
 //Impostiamo i parametri in base ai colori e ai nomi
 function getParameterByXML(parameterString){
     var color=parameterString.substr(parameterString.indexOf("color=\"#")+"color=\"#".length+1,parameterString.indexOf("\">")+"\">".length-"color=\"#".length);
@@ -113,7 +174,8 @@ function getParameterByXML(parameterString){
     name=name.substr(0,name.indexOf("</font>"));
     return {
         color: color,
-        name: name
+        name: name,
+        userValues:[],
     }
 }
 
@@ -133,4 +195,62 @@ function findParameterInPhraseByColor(phrase,parameterColor){
         }
     }
     return keyTerms;
+}
+
+//Serve a dividere la risposta dell'intent al fine di verificare se include dei parameters
+function splitAnswer(answer,parameters){
+    var splittedAnswer=[];
+
+
+
+    
+    var chars="";
+    //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
+    for (var i=0;i<answer.length;i++){
+            //Leggiamo finchè non troviamo <font color="        
+        if ((answer[i]=="<") && (answer[i+1]=="f")){
+            //2- Abbiamo individuato un termine chiave
+            //Ma prima, verifichiamo se il buffer caratteri era pieno in precedenza
+            if (chars.length>0){
+                //Parte di frase normale
+                //Ci salviamo il pezzo di frase normale
+                splittedAnswer.push({
+                    text: chars
+                });
+
+                //Svuotiamo
+                chars="";
+            }
+            //È un termine chiave: ce lo andiamo a prendere
+            var termTAG=answer.substr(i,answer.indexOf("</font>")-i+"</font>".length);
+            //Andiamondiamo a verificare in base al colore a quale parameter associarlo
+            var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length+1,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
+            color=color.substr(0,color.indexOf("\">"));
+            //Andiamo a cercare nei parameters il parameter corrispondente
+            parameters.forEach((parameter)=>{
+                if (parameter.color==color){
+                    //L'abbiamo trovato, proseguiamo
+                    //In questo caso andiamo ad aggiungere il termine chiave ai valori del paramter in questione
+                    var value=termTAG.substr(termTAG.indexOf("\">")+"\">".length,termTAG.indexOf("</font>")-8);
+                    value=value.substr(0,value.indexOf("</font>"));   
+                    parameter.userValues.push(value);
+                    //E infine, aggiungiamo alla training phrase divisa
+                    splittedAnswer.push({
+                        text: value,
+                        entityType:"@"+parameter.name,
+                        alias:parameter.name,
+                    });
+                }
+            });
+            //Incrementiamo i per bypassare il pezzo appena considerato
+            i+=termTAG.length;
+        }
+        else{
+            //carattere normale da aggiungere
+            chars+=answer[i];
+        }
+    }
+
+    //Torniamo la training phrase divisa opportunamente
+    return splittedAnswer;
 }
