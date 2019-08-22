@@ -26,7 +26,7 @@ agentXML=agentXMLCreator.parseGraph(botFile);
 
 console.log(agentXML);
  //Tesiamo e creiamo gli intent
- agenintentsXML.forEach((intent)=>{
+ agentXML.intents.forEach((intent)=>{
   createIntent(projectId,intent.name,intent.trainingPhrases,intent.risposte,intent.parameters)
   .then((response)=>{
       console.log(response);
@@ -48,7 +48,7 @@ console.log(agentXML);
 async function createIntent(
     projectId,
     displayName,
-    trainingPhrasesParts,
+    trainingPhrases,
     messageTexts,
     parameters=[]
     
@@ -65,23 +65,58 @@ async function createIntent(
     // The path to identify the agent that owns the created intent.
     const agentPath = intentsClient.projectAgentPath(projectId);
   
-    const trainingPhrases = [];
-  
-    trainingPhrasesParts.forEach(trainingPhrasesPart => {
-      //In questo punto, verifichiamo se il pezzo della frase è un parametro oppure un semplice pezzo di testo
-      const part = {
-        text: trainingPhrasesPart,
-      };
-  
-      // Here we create a new training phrase for each provided part.
-      const trainingPhrase = {
+    const trainingPhrasesBOT = [];
+    
+    //Prendiamo tutte le trainingPhrases
+    trainingPhrases.forEach(trainingPhrase => {
+      //Prendiamo tutte le loro parti
+      var parts=[];
+      trainingPhrase.forEach((piece)=>{
+        
+        //In questo punto, verifichiamo se il pezzo della frase è un parametro oppure un semplice pezzo di testo
+        if (piece.entityType!=undefined){
+          //Pezzo che contiene un termine chiave per un dato parametro
+          var part = {
+            text: piece.text,
+            entityType: piece.entityType,
+            alias:piece.alias,
+          };
+          parts.push(part);
+        }
+        else{
+          //Pezzo di frase normale
+          var part = {
+            text: piece.text,
+            entityType:" ",
+            alias:" ",
+          };
+          parts.push(part);
+        }
+        
+      });
+      //A questo punto costruiamo la trainingphrase
+      const trainingPhraseFinal = {
         type: 'EXAMPLE',
-        parts: [part],
+        parts: parts,
       };
   
-      trainingPhrases.push(trainingPhrase);
-    });
+      trainingPhrasesBOT.push(trainingPhraseFinal);
+      parts=[];
+      
   
+      
+    });
+    
+    const parameterBOT=[];
+    parameters.forEach((parameter)=>{
+      //ci prendiamo tutti i suoi attributi
+      parameterBOT.push({
+        displayName:parameter.name,
+        entityDisplayName: "@"+parameter.name,
+        value: ""
+      })
+    });
+
     const messageText = {
       text: messageTexts,
     };
@@ -94,7 +129,7 @@ async function createIntent(
       displayName: displayName,
       trainingPhrases: trainingPhrases,
       messages: [message],
-      parameters:[parameters],
+      parameters:parameterBOT,
      
     };
   

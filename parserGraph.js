@@ -74,7 +74,8 @@ module.exports={
     
     
                             valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
-                            var risposte=valueXML.substr(valueXML.indexOf("risposta: ")+"risposta: ".length,valueXML.length-"risposta: ".length);
+                            var risposte=valueXML.substr(valueXML.indexOf("risposta: ")+"risposta: ".length,valueXML.length-"risposta: ".length).split("§");
+                            
                             //Lo stesso criterio, lo dobbiamo applicare alle risposte
                             risposte=risposte.map((risposta)=>{
                                 return splitAnswer(risposta,parameters);
@@ -111,10 +112,6 @@ module.exports={
 function splitTrainingPhrase(trainingPhrase,parameters){
     
     var splittedTrainingPhrase=[];
-
-
-
-    
     var chars="";
     //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
     for (var i=0;i<trainingPhrase.length;i++){
