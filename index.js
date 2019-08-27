@@ -78,8 +78,10 @@ async function createIntent(
           //Pezzo che contiene un termine chiave per un dato parametro
           var part = {
             text: piece.text,
-            entityType: "@sys.any:"+piece.entityType,
-            alias:"$"+piece.entityType,
+            //entityType: piece.entityType.substr(1,piece.entityType.length),
+            entityType: "@sys.any",
+            alias:piece.entityType.substr(1,piece.entityType.length),
+            userDefined: false,
           };
           parts.push(part);
         }
@@ -105,7 +107,10 @@ async function createIntent(
   
       
     });
-    
+   
+    //Parrebbe inutile: se metto le training phrase parametrizzate li elenca già lui i parametri
+
+    /*
     const parameterBOT=[];
     parameters.forEach((parameter)=>{
       //ci prendiamo tutti i suoi attributi
@@ -116,6 +121,7 @@ async function createIntent(
         
       })
     });
+    */
     var messageText={
       text:""
     }
@@ -156,9 +162,9 @@ async function createIntent(
   
     const intent = {
       displayName: displayName,
-      trainingPhrases: trainingPhrases,
+      trainingPhrases: trainingPhrasesBOT,
       messages: messagesBuilt,
-      parameters:parameterBOT,
+      //parameters:parameterBOT,
      
     };
   
