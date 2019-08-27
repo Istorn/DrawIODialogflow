@@ -1,3 +1,5 @@
+//Lorenzo Neri - 901009 - lorenzo.neri@studenti.unimi.it
+
 'use strict';
 
 //TODO https://blog.dialogflow.com/post/create-and-manage-entities-with-api/
@@ -208,6 +210,7 @@ async function createIntent(
 
     //Verifichiamo se è un intent a messaggi diretti o ad API
     //Facciamo altrettanto per i messaggi di risposta
+    //TODO: capire perché non vengono presi da Dialogflow
     var messagesBuilt=[];
     messageTexts.forEach((message)=>{
         var messageToBuild="";
