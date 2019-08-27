@@ -78,8 +78,8 @@ async function createIntent(
           //Pezzo che contiene un termine chiave per un dato parametro
           var part = {
             text: piece.text,
-            entityType: piece.entityType,
-            alias:piece.alias,
+            entityType: "@sys.any:"+piece.entityType,
+            alias:"$"+piece.entityType,
           };
           parts.push(part);
         }
@@ -87,8 +87,7 @@ async function createIntent(
           //Pezzo di frase normale
           var part = {
             text: piece.text,
-            entityType:" ",
-            alias:" ",
+            
           };
           parts.push(part);
         }
@@ -112,23 +111,53 @@ async function createIntent(
       //ci prendiamo tutti i suoi attributi
       parameterBOT.push({
         displayName:parameter.name,
-        entityDisplayName: "@"+parameter.name,
-        value: ""
+        entityType: "@sys.any",
+        value: "$"+parameter.name,
+        
       })
     });
+    var messageText={
+      text:""
+    }
+    //Facciamo altrettanto per i messaggi di risposta
+    var messagesBuilt=[];
+    messageTexts.forEach((message)=>{
+        var messageToBuild="";
+        message.forEach((piece)=>{
+          piece.forEach((realPiece)=>{
+            if (realPiece.alias!=undefined){
+              //È un parameter
+              messageToBuild+="$"+realPiece.alias;
+            }else{
+              //Pezzo di stringa normale
+              messageToBuild+=realPiece.text;
+            }
+        
+          });    
+        });
+        
+        
+        
+        //Prendiamo la stringa
+        //Ne facciamo l'oggetto
+          messageText.text= [messageToBuild];
+          messagesBuilt.push(messageText);
+        
+        
+        //Puliamo
+        messageToBuild="";
 
-    const messageText = {
-      text: messageTexts,
-    };
+    });
+
+
+   
   
-    const message = {
-      text: messageText,
-    };
+    
   
     const intent = {
       displayName: displayName,
       trainingPhrases: trainingPhrases,
-      messages: [message],
+      messages: messagesBuilt,
       parameters:parameterBOT,
      
     };
