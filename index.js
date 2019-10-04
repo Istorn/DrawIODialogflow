@@ -176,12 +176,13 @@ async function createIntent(
               
             }else{
               //Pezzo di stringa normale
-              messageToBuild+=realPiece.text;
+              messageToBuild+=" "+realPiece.text+" ";
             }
         
           });    
         });
-        
+        messageToBuild=messageToBuild.trim();
+        messageToBuild=messageToBuild.replace(/\s{2,}/g, ' ');
         
         
         //Prendiamo la stringa
