@@ -36,7 +36,7 @@ console.log(agentXML);
       
       intentcreated.push(response[0]);
       console.log(response[0].displayName+" Creato.");
-      updateIntent(response[0]);
+      //updateIntent(response[0]);
   });
 });
 
