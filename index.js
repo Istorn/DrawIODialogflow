@@ -28,14 +28,67 @@ console.log(agentXML);
   //Per ogni intent parsato dal grafico, lo andiamo ad aggiungere al nostro agente
   //Da trasformare in una funzione ricorsiva asincrona: se gli intent padre non esistono ancora su Dialogflow, andrà in errore perché non trova i followup da associare
   //Da rivedere, probabilmente non necessario
+  var intentcreated=[];
+
  agentXML.intents.forEach((intent)=>{
   createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters)
   .then((response)=>{
-      console.log(response);
+      
+      intentcreated.push(response[0]);
+      console.log(response[0].displayName+" Creato.");
+      updateIntent(response[0]);
   });
 });
 
 
+
+//Funzione per aggiungere in coda ggli input/outputcontext una volta creato l'intent
+
+async function updateIntent(intentTU){
+  const dialogflow = require('dialogflow');
+  
+    // Instantiates the Intent Client
+    const intentsClientup = new dialogflow.IntentsClient(
+        {credentials: credentials,}
+    );
+  
+    // The path to identify the agent that owns the created intent.
+    const agentPath = intentsClientup.projectAgentPath(projectId);
+  
+      
+      //Arrivati a questo punto della callback, Aggiungiamo input e outputcontext per ogni Intent
+      const intentToUpDate = {
+        name: intentTU.name,
+        
+        outputContexts:[
+          {
+            name: intentTU.displayName,
+            lifespanCount: 10
+          }
+        ]
+
+        //parameters:parameterBOT,
+       
+      };
+    
+    
+  
+    const updateIntentRequest = {
+      parent: agentPath,
+      intent: intentToUpDate,
+    };
+  
+    // Create the intent
+    try{
+      const responses = await intentsClientup.updateIntent(updateIntentRequest);
+      return responses;
+      console.log(`${responses[0].name} updated`);
+    }
+    catch (e){
+      console.log(e);
+      return e;
+    }
+}
 
 
 //Funzione che verifica se un parametro è presente in più di una training phrase: questo perchè Dialogflow lo crea erroneamente come lista
@@ -221,7 +274,8 @@ async function createIntent(
       const intent = {
         displayName: displayName,
         trainingPhrases: trainingPhrasesBOT,
-        messages: messagesBuilt,
+        messages: messagesBuilt
+        
 
         //parameters:parameterBOT,
        
