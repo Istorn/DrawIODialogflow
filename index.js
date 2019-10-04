@@ -25,9 +25,9 @@ agentXML=agentXMLCreator.parseGraph(botFile);
 
 
 console.log(agentXML);
- //Tesiamo e creiamo gli intent
+  //Per ogni intent parsato dal grafico, lo andiamo ad aggiungere al nostro agente
  agentXML.intents.forEach((intent)=>{
-  createIntent(projectId,intent.name,intent.trainingPhrases,intent.risposte,intent.parameters)
+  createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters)
   .then((response)=>{
       console.log(response);
   });
@@ -47,9 +47,12 @@ console.log(agentXML);
 
 async function createIntent(
     projectId,
+    
     displayName,
+    idXML,
     trainingPhrases,
     messageTexts,
+    followUps=[],
     parameters=[]
     
   ) {
@@ -150,7 +153,12 @@ async function createIntent(
         //Prendiamo la stringa
         //Ne facciamo l'oggetto
           messageText.text= [messageToBuild];
-          messagesBuilt.push(messageText);
+          var messageToAdd={
+            text:messageText
+          }
+          
+          
+          messagesBuilt.push(messageToAdd);
         
         
         //Puliamo
@@ -159,14 +167,26 @@ async function createIntent(
     });
 
 
-   
+   //Verifichiamo se è followup di qualche altro intent oppure bisogna passargli dei followup
   
+    followUps.forEach((followUp)=>{
+      //Verifichiamo se questa intent in questione è followup o diventa followup di qualcun altro
+      if (followUp.father==intent.id){
+        //È padre, quindi ha dei suoi followup: ce li peschiamo tutti
+        agentXML.getFollowUPSByIntent(intent.id);
+
+      }
+      else if (followUp.son==intent.id){
+        //È un followup di un altro intent
+      }
+    });
     
-  
+    //Costruiamo l'Intent
     const intent = {
       displayName: displayName,
       trainingPhrases: trainingPhrasesBOT,
       messages: messagesBuilt,
+      
       //parameters:parameterBOT,
      
     };

@@ -1,6 +1,7 @@
 module.exports=class AgentXML{
     constructor(){
         this.name="";
+        this.idGraph="";
         this.intents=[];
         this.contexts=[];
         this.fullfillment="";
@@ -18,5 +19,15 @@ module.exports=class AgentXML{
     }
     setFollowups(followups){
         this.followups=followups;
+    }
+    //Restituisce i follow up figli dato l'id dell'intent
+    getFollowUPSByIntent(intentID){
+        var intentsName=[];
+        this.followups.forEach((followUp)=>{
+            if (followUp.father==intentID){
+                intentsName.push(followUp.son);
+            }
+        });
+        return intentsName;
     }
 }

@@ -34,7 +34,7 @@ module.exports={
                         //Aggiungiamo
                         followups.push(followup);
                     }else{
-                        //Entity
+                        //Intent/Fulfillment
                         
                         if (valueXML.indexOf("nome: ")<0){
                             console.error("L'intent non ha un nome impostato");
@@ -56,12 +56,16 @@ module.exports={
                                 var stringParameters=valueXML.substr(valueXML.indexOf("parameters: ")+"parameters: ".length,valueXML.indexOf("<br>")-"parameters: ".length);
                                 //Li normalizziamo
                                 stringParameters.split("§").forEach(element => {
-                                    parameters.push(getParameterByXML(element));
+                                    if (element.length>0)
+                                        parameters.push(getParameterByXML(element));
                                 });
                                 valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
                                 
                                 
     
+                            }
+                            else{
+                                var parameters=[];
                             }
                             var phrases=[];
                             var stringPhrases=valueXML.substr(valueXML.indexOf("phrases: ")+"phrases: ".length,valueXML.indexOf("<br>")-"phrases: ".length);
@@ -74,7 +78,7 @@ module.exports={
     
     
                             valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
-                            var risposte=valueXML.substr(valueXML.indexOf("risposta: ")+"risposta: ".length,valueXML.length-"risposta: ".length).split("§");
+                            var risposte=valueXML.substr(valueXML.indexOf("answer: ")+"answer: ".length,valueXML.length-"answer: ".length).split("§");
                             
                             //Lo stesso criterio, lo dobbiamo applicare alle risposte
                             risposte=risposte.map((risposta)=>{
@@ -98,7 +102,7 @@ module.exports={
             
             //Creiamo l'agente
             agentXML.setIntents(intentsXML);
-            
+            agentXML.setFollowups(followups);            
            
         }
         else {
@@ -157,6 +161,12 @@ function splitTrainingPhrase(trainingPhrase,parameters){
             //carattere normale da aggiungere
             chars+=trainingPhrase[i];
         }
+    }
+    //Parte finale da aggiungere oppure trainingPhrases senza paramaters
+    if (chars.length>0){
+        splittedTrainingPhrase.push({
+            text: chars
+        });
     }
 
     //Torniamo la training phrase divisa opportunamente
@@ -246,6 +256,12 @@ function splitAnswer(answer,parameters){
             //carattere normale da aggiungere
             chars+=answer[i];
         }
+    }
+    if (chars.length>0){
+        //Signfica che c'è un ultimo pezzo da leggere
+        splittedAnswer.push({
+            text: chars
+        });
     }
 
     //Torniamo la training phrase divisa opportunamente
