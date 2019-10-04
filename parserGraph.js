@@ -33,7 +33,7 @@ module.exports={
                         followup.son=graphXMLCells[i].ATTR.target;
                         //Aggiungiamo
                         followups.push(followup);
-                    }else{
+                    }else if (graphXMLCells[i].ATTR.style.indexOf("dataStorage")<0){
                         //Intent/Fulfillment
                         
                         if (valueXML.indexOf("nome: ")<0){
@@ -53,13 +53,14 @@ module.exports={
                             if (valueXML.indexOf("parameters: ")>=0){
                                 //Ci sono parameters da prendere
                                 var parameters=[];
-                                var stringParameters=valueXML.substr(valueXML.indexOf("parameters: ")+"parameters: ".length,valueXML.indexOf("<br>")-"parameters: ".length);
+                                //var stringParameters=valueXML.substr(valueXML.indexOf("parameters: ")+"parameters: ".length,(valueXML.indexOf("answer:")-4)-"parameters: ".length);
+                                var stringParameters=valueXML.split("<br>")[1];
                                 //Li normalizziamo
                                 stringParameters.split("§").forEach(element => {
                                     if (element.length>0)
                                         parameters.push(getParameterByXML(element));
                                 });
-                                valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
+                                //valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
                                 
                                 
     
@@ -68,7 +69,9 @@ module.exports={
                                 var parameters=[];
                             }
                             var phrases=[];
-                            var stringPhrases=valueXML.substr(valueXML.indexOf("phrases: ")+"phrases: ".length,valueXML.indexOf("<br>")-"phrases: ".length);
+                            //var stringPhrases=valueXML.substr(valueXML.indexOf("phrases: ")+"phrases: ".length,valueXML.indexOf("<br>")-"phrases: ".length);
+                            var stringPhrases=valueXML.split("<br>")[0];
+                            stringPhrases=stringPhrases.substr(9,(stringPhrases.length-9));
                             phrases=stringPhrases.split("§");
                             //Dobbiamo dividere ogni frase in pezzi.
                             //Il motivo è dato dalla eventuale presenza di termini chiave da associare ai parameters
@@ -78,14 +81,19 @@ module.exports={
     
                             
 
-                            valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
+                            //valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
                             //Risposte: se si tratta di risposte base allora procediamo così, diversamente dovremo optare per le api esterne
-                            var risposte=valueXML.substr(valueXML.indexOf("answer: ")+"answer: ".length,valueXML.length-"answer: ".length).split("§");
+                            if (valueXML.indexOf("answer: ")>0){
+                                var risposteString=valueXML.split("<br>")[2];
+                                risposteString=risposteString.substr(8,risposteString.length-8);
+                                var risposte=risposteString.split("§");
                             
-                            //Lo stesso criterio, lo dobbiamo applicare alle risposte
-                            risposte=risposte.map((risposta)=>{
-                                return splitAnswer(risposta,parameters);
-                            });
+                                //Lo stesso criterio, lo dobbiamo applicare alle risposte
+                                risposte=risposte.map((risposta)=>{
+                                    return splitAnswer(risposta,parameters);
+                                });
+                            }
+                         
                             
                             //Creiamo l'intent
                             var intentXML=new ClassintentXML();
@@ -98,6 +106,8 @@ module.exports={
                             intentsXML.push(intentXML);
     
                         }
+                    }else{
+                        //API
                     }
                 }
             }
@@ -215,7 +225,10 @@ function splitAnswer(answer,parameters){
     
     var chars="";
     //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
-    for (var i=0;i<answer.length;i++){
+    var i=0;
+    var readerString=answer;
+    while (i<answer.length){
+
             //Leggiamo finchè non troviamo <font color="        
         if ((answer[i]=="<") && (answer[i+1]=="f")){
             //2- Abbiamo individuato un termine chiave
@@ -226,13 +239,28 @@ function splitAnswer(answer,parameters){
                 splittedAnswer.push({
                     text: chars
                 });
-
+                readerString=readerString.substr(chars.length,readerString.length-chars.length)
                 //Svuotiamo
                 chars="";
             }
             //È un termine chiave: ce lo andiamo a prendere
-            var termTAG=answer.substr(i,answer.indexOf("</font>")-i+"</font>".length);
-            //Andiamondiamo a verificare in base al colore a quale parameter associarlo
+            var termTAG=readerString.substr(0,readerString.indexOf("</font>")+"</font>".length);
+            
+            var termine=termTAG.substr(termTAG.indexOf("\">")+"\">".length,termTAG.indexOf("</font>")-8);
+            termine=termine.substr(0,termine.indexOf("</font>")).trim();   
+            
+            if (termine.length>=2){
+                splittedAnswer.push({
+                    text: termine,
+                    alias:termine
+    
+                });
+            }
+            
+            /*
+
+            Parte non necessaria
+            //Andiamo a verificare in base al colore a quale parameter associarlo
             var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length+1,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
             color=color.substr(0,color.indexOf("\">"));
             //Andiamo a cercare nei parameters il parameter corrispondente
@@ -251,12 +279,15 @@ function splitAnswer(answer,parameters){
                     });
                 }
             });
+            */
             //Incrementiamo i per bypassare il pezzo appena considerato
             i+=termTAG.length;
+            readerString=readerString.substr(termTAG.length,readerString.length-termTAG.length);
         }
         else{
             //carattere normale da aggiungere
             chars+=answer[i];
+            i++;
         }
     }
     if (chars.length>0){
@@ -264,6 +295,7 @@ function splitAnswer(answer,parameters){
         splittedAnswer.push({
             text: chars
         });
+        i=answer.length;
     }
 
     //Torniamo la training phrase divisa opportunamente

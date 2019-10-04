@@ -18,7 +18,7 @@ const agentClient = new dialogflow.IntentsClient({
 
 const projectId = 'test1drawio-ttlbdt';
 const agentPath = agentClient.projectAgentPath(projectId);
-var botFile='BotDiagram.xml';
+var botFile='TestBotFinal.xml';
 const agentXMLCreator=require('./parserGraph');
 var agentXML;
 agentXML=agentXMLCreator.parseGraph(botFile);
@@ -27,6 +27,7 @@ agentXML=agentXMLCreator.parseGraph(botFile);
 console.log(agentXML);
   //Per ogni intent parsato dal grafico, lo andiamo ad aggiungere al nostro agente
   //Da trasformare in una funzione ricorsiva asincrona: se gli intent padre non esistono ancora su Dialogflow, andrà in errore perché non trova i followup da associare
+  //Da rivedere, probabilmente non necessario
  agentXML.intents.forEach((intent)=>{
   createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters)
   .then((response)=>{
@@ -37,7 +38,24 @@ console.log(agentXML);
 
 
 
+//Funzione che verifica se un parametro è presente in più di una training phrase: questo perchè Dialogflow lo crea erroneamente come lista
+function isParameterTwicePresent(parameter,trainingPhrases){
+  var counter=0;
+  trainingPhrases.forEach((trainingPhrase)=>{
+    trainingPhrase.parts.forEach((piece)=>{
+      if (piece.alias!=undefined){
+        if (piece.alias==parameter){
+          counter++;
+        }
 
+      }
+    });
+  });
+  if (counter>1){
+    return true;
+  }
+  return false;
+}
 
 
 
@@ -85,7 +103,9 @@ async function createIntent(
             //entityType: piece.entityType.substr(1,piece.entityType.length),
             entityType: "@sys.any",
             alias:piece.entityType.substr(1,piece.entityType.length),
-            userDefined: false,
+            userDefined: true,
+            isList:false
+
           };
           parts.push(part);
         }
@@ -142,7 +162,18 @@ async function createIntent(
           piece.forEach((realPiece)=>{
             if (realPiece.alias!=undefined){
               //È un parameter
-              messageToBuild+="$"+realPiece.alias+" ";
+              //Dobbiamo verificare se non derivi da un altro contesto
+              //Dobbiamo verificare se questo intent non abbia più di una training phrase associata
+              if (realPiece.alias.indexOf(".")>0){
+                //InputContext
+                messageToBuild="#"+realPiece.alias;
+              }
+              else if (isParameterTwicePresent(realPiece.alias,trainingPhrasesBOT)){
+                messageToBuild+="$"+realPiece.alias;
+              }else{
+                messageToBuild+="$"+realPiece.alias;
+              }
+              
             }else{
               //Pezzo di stringa normale
               messageToBuild+=realPiece.text;
@@ -175,12 +206,12 @@ async function createIntent(
     followUps.forEach((followUp)=>{
       //Verifichiamo se questa intent in questione è followup o diventa followup di qualcun altro
       if (followUp.father==intent.id){
-        //È padre, quindi ha dei suoi followup: Dobbiamo impostare l'outputcontext
+        //È padre, quindi ha dei suoi followup: Dobbiamo impostare l'outputcontext e verificare se non ne ha altri a corredo
         
 
       }
       else if (followUp.son==intent.id){
-        //È un followup di un altro intent
+        //È un followup di un altro intent: dobbiamo impostare i suoi input context
       }
     });
     

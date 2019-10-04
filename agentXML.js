@@ -6,6 +6,9 @@ module.exports=class AgentXML{
         this.contexts=[];
         this.fullfillment="";
         this.followups=[];
+        this.inputContext=[];
+        this.outputContext=[];
+        
     }
     setIntents(intents){
         this.intents=intents;
