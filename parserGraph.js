@@ -76,8 +76,10 @@ module.exports={
                                 return splitTrainingPhrase(phrase,parameters);
                             });
     
-    
+                            
+
                             valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
+                            //Risposte: se si tratta di risposte base allora procediamo così, diversamente dovremo optare per le api esterne
                             var risposte=valueXML.substr(valueXML.indexOf("answer: ")+"answer: ".length,valueXML.length-"answer: ".length).split("§");
                             
                             //Lo stesso criterio, lo dobbiamo applicare alle risposte

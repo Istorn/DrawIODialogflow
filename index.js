@@ -18,7 +18,7 @@ const agentClient = new dialogflow.IntentsClient({
 
 const projectId = 'test1drawio-ttlbdt';
 const agentPath = agentClient.projectAgentPath(projectId);
-var botFile='test2.xml';
+var botFile='BotDiagram.xml';
 const agentXMLCreator=require('./parserGraph');
 var agentXML;
 agentXML=agentXMLCreator.parseGraph(botFile);
@@ -26,6 +26,7 @@ agentXML=agentXMLCreator.parseGraph(botFile);
 
 console.log(agentXML);
   //Per ogni intent parsato dal grafico, lo andiamo ad aggiungere al nostro agente
+  //Da trasformare in una funzione ricorsiva asincrona: se gli intent padre non esistono ancora su Dialogflow, andrà in errore perché non trova i followup da associare
  agentXML.intents.forEach((intent)=>{
   createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters)
   .then((response)=>{
@@ -131,6 +132,8 @@ async function createIntent(
     var messageText={
       text:""
     }
+
+    //Verifichiamo se è un intent a messaggi diretti o ad API
     //Facciamo altrettanto per i messaggi di risposta
     var messagesBuilt=[];
     messageTexts.forEach((message)=>{
@@ -139,7 +142,7 @@ async function createIntent(
           piece.forEach((realPiece)=>{
             if (realPiece.alias!=undefined){
               //È un parameter
-              messageToBuild+="$"+realPiece.alias;
+              messageToBuild+="$"+realPiece.alias+" ";
             }else{
               //Pezzo di stringa normale
               messageToBuild+=realPiece.text;
@@ -172,8 +175,8 @@ async function createIntent(
     followUps.forEach((followUp)=>{
       //Verifichiamo se questa intent in questione è followup o diventa followup di qualcun altro
       if (followUp.father==intent.id){
-        //È padre, quindi ha dei suoi followup: ce li peschiamo tutti
-        agentXML.getFollowUPSByIntent(intent.id);
+        //È padre, quindi ha dei suoi followup: Dobbiamo impostare l'outputcontext
+        
 
       }
       else if (followUp.son==intent.id){
@@ -182,14 +185,17 @@ async function createIntent(
     });
     
     //Costruiamo l'Intent
-    const intent = {
-      displayName: displayName,
-      trainingPhrases: trainingPhrasesBOT,
-      messages: messagesBuilt,
-      
-      //parameters:parameterBOT,
-     
-    };
+    
+      const intent = {
+        displayName: displayName,
+        trainingPhrases: trainingPhrasesBOT,
+        messages: messagesBuilt,
+
+        //parameters:parameterBOT,
+       
+      };
+    
+    
   
     const createIntentRequest = {
       parent: agentPath,
@@ -199,10 +205,11 @@ async function createIntent(
     // Create the intent
     try{
       const responses = await intentsClient.createIntent(createIntentRequest);
+      return responses;
       console.log(`Intent ${responses[0].name} created`);
     }
     catch (e){
-      console.log(e);
+      return e;
     }
     
     // [END dialogflow_create_intent]
