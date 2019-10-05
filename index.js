@@ -36,10 +36,45 @@ console.log(agentXML);
       
       intentcreated.push(response[0]);
       console.log(response[0].displayName+" Creato.");
-      //updateIntent(response[0]);
+      
+      updateIntent(response[0]);
   });
 });
 
+
+
+//Da testare
+async function createContexts(intent){
+  
+    const dialogflow = require('dialogflow');
+  
+    // Instantiates the Intent Client
+    const intentsClientup = new dialogflow.ContextsClient(
+        {options: credentials,}
+    );
+    
+    // The path to identify the agent that owns the created intent.
+    const agentPath = intentsClientup.getProjectId(projectId);
+     const createContextRequest = {
+      parent: agentPath,
+      context: {
+        name:intent.name,
+
+      }
+    };
+  
+    try{
+      const responses = await intentsClientup.createContext(createContextRequest);
+      console.log(`${responses[0].name} updated`);
+      return responses;
+      
+    }
+    catch (e){
+      console.log(e);
+      return e;
+    }
+  
+}
 
 
 //Funzione per aggiungere in coda ggli input/outputcontext una volta creato l'intent
@@ -54,28 +89,24 @@ async function updateIntent(intentTU){
   
     // The path to identify the agent that owns the created intent.
     const agentPath = intentsClientup.projectAgentPath(projectId);
-  
+      intentsClientup.getProjectId().then((promise)=>{
+        console.log(promise);
+      });
       
       //Arrivati a questo punto della callback, Aggiungiamo input e outputcontext per ogni Intent
-      const intentToUpDate = {
-        name: intentTU.name,
+      intentTU.outputContexts.push({
         
-        outputContexts:[
-          {
-            name: intentTU.displayName,
-            lifespanCount: 10
-          }
-        ]
-
-        //parameters:parameterBOT,
-       
-      };
+          name: agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+intentTU.displayName,
+          lifespanCount: 10
+        
+      });
+      
     
     
   
     const updateIntentRequest = {
       parent: agentPath,
-      intent: intentToUpDate,
+      intent: intentTU,
     };
   
     // Create the intent
@@ -156,7 +187,7 @@ async function createIntent(
             //entityType: piece.entityType.substr(1,piece.entityType.length),
             entityType: "@sys.any",
             alias:piece.entityType.substr(1,piece.entityType.length),
-            userDefined: true,
+            userDefined: false,
             isList:false
 
           };
@@ -187,18 +218,20 @@ async function createIntent(
    
     //Parrebbe inutile: se metto le training phrase parametrizzate li elenca già lui i parametri
 
-    /*
+    
     const parameterBOT=[];
     parameters.forEach((parameter)=>{
       //ci prendiamo tutti i suoi attributi
       parameterBOT.push({
         displayName:parameter.name,
-        entityType: "@sys.any",
+        entityType: "sys.any",
         value: "$"+parameter.name,
+        isList:false,
+
         
       })
     });
-    */
+    
 
 
     
@@ -274,9 +307,7 @@ async function createIntent(
       const intent = {
         displayName: displayName,
         trainingPhrases: trainingPhrasesBOT,
-        messages: messagesBuilt
-        
-
+        messages: messagesBuilt,
         //parameters:parameterBOT,
        
       };
@@ -292,7 +323,8 @@ async function createIntent(
     try{
       const responses = await intentsClient.createIntent(createIntentRequest);
       return responses;
-      console.log(`Intent ${responses[0].name} created`);
+          
+      
     }
     catch (e){
       return e;
