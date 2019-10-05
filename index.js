@@ -94,6 +94,7 @@ async function updateIntent(intentTU){
       });
       
       //Arrivati a questo punto della callback, Aggiungiamo input e outputcontext per ogni Intent
+      intentTU.inputContextNames=[agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+intentTU.displayName];
       intentTU.outputContexts.push({
         
           name: agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+intentTU.displayName,
@@ -322,6 +323,9 @@ async function createIntent(
     // Create the intent
     try{
       const responses = await intentsClient.createIntent(createIntentRequest);
+      responses[0].trainingPhrases=intent.trainingPhrases;
+      responses[0].messages=intent.messages;
+      
       return responses;
           
       
