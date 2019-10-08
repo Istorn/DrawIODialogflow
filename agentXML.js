@@ -8,15 +8,21 @@ module.exports=class AgentXML{
         this.followups=[];
         this.inputContext=[];
         this.outputContext=[];
+    
         
     }
+    
     setIntents(intents){
         this.intents=intents;
     };
-    setContexts(contexts){
-        this.contexts=contexts;
+    setOutputContexts(contexts){
+        this.outputContext=contexts;
 
     }
+    setInputcontexts(contexts){
+        this.inputContext=contexts;
+    }
+
     setFullfillment(fullfillmentFile){
         this.fullfillment=fullfillmentFile;
     }

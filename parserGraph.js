@@ -102,6 +102,8 @@ module.exports={
                             intentXML.trainingPhrases=phrases;
                             intentXML.risposte.push(risposte);
                             intentXML.parameters=parameters;
+                            intentXML.inputContexts=[];
+                            intentXML.outputContexts=[];
                             //lo aggiungiamo alla lista
                             intentsXML.push(intentXML);
     
@@ -114,7 +116,120 @@ module.exports={
             
             //Creiamo l'agente
             agentXML.setIntents(intentsXML);
-            agentXML.setFollowups(followups);            
+            agentXML.setFollowups(followups);
+            //Creiamo la tabella dei contesti
+            var tableContext=[];
+            agentXML.intents.forEach((intent)=>{
+                //Creo la tabella per ogni intent presente
+                tableContext.push({"idIntent":intent.id,"input":"","output":[]});
+                
+            });
+
+            //Prendo le relazioni in cui l'intent analizzato è padre
+            tableContext.forEach((row)=>{
+                var followUpsFather=agentXML.followups.filter((followup)=>{return followup.father==row.idIntent});
+                followUpsFather.forEach((followup)=>{
+                    //Per ogni relazione trovata, metto nella mia riga i nodi per cui sono output
+                    row.output.push(followup.son);
+                    //E mi metto come input nella riga di mio figlio
+                    var rigaFiglio=tableContext.filter((rowFiglia)=>{
+                        return rowFiglia.idIntent==followup.son;
+                    });
+                    rigaFiglio[0].input=followup.father;
+                });
+
+            });
+            //Arrivati a questo punto, analizziamo la tabella e creiamo i contesti finali
+            var inouttable=[];
+            tableContext.forEach((row)=>{
+                //Sono output per qualcuno? 
+                if (row.output.length>0){
+                    //Prendo i miei input (se ne ho), più me stesso e li imposto sul mio output
+                    var output=[];
+                    if (row.input.length>0)
+                        output.push(row.input);
+                    output.push(row.idIntent);
+                    inouttable.push({"id":row.idIntent,"output":output,"input":[]});
+
+                }
+                //Ho degli input?
+                if (row.input.length>0){
+                    //vado nella riga del padre e prendo il suo output se non ce l'ho già nella mia
+                    var rigaPadre=tableContext.filter((rowsearch)=>{
+                        return rowsearch.idIntent==row.input;
+                    })[0];
+                    var finalInput=[];
+                    //Prendo i miei
+                    finalInput.push(row.input);
+                    //Mi prendo quelli che non ho
+                    var missingInputs=rigaPadre.output.filter((output)=>{
+                        
+                            return output;
+                    });
+                    missingInputs.forEach((input)=>{
+                        finalInput.push(input);
+                    })
+                    //Aggiungo anche il padre
+                    finalInput.push(rigaPadre.idIntent);
+                    
+                    //Mi devo prendere gli input mancanti nella tabella finalizzata
+                    var rowToComplete=inouttable.filter((rowFatherFinal)=>{return rowFatherFinal.id==row.input})[0];
+                    if (rowToComplete){
+                        rowToComplete.output.forEach((out)=>{
+                            finalInput.push(out);
+                        });
+                    }
+                    //rimuovo duplicati
+                    finalInput=finalInput.filter((v,i) => {return finalInput.indexOf(v) === i});
+                    
+                    
+
+                    var inoutrow=inouttable.filter((rowfinal)=>{
+                        return rowfinal.id==row.idIntent;
+                    })[0];
+                    if (inoutrow==null){
+                        //Vuol dire che me la devo creare: è un intent senza output
+                        //Perciò, mi prendo l'output del padre
+                        var outPutFather=inouttable.filter((rowFather)=>{return rowFather.id==row.input})[0].output;
+                        //rimuovo me stesso
+                        outPutFather=outPutFather.filter((out)=>{return out!=row.idIntent});
+                        inouttable.push({"id":row.idIntent,"output":[],"input":outPutFather});
+                        
+
+                    }else{
+                        //Rimuovo me stesso dagli input
+                        finalInput=finalInput.filter((final)=>{return final!=inoutrow.id});
+                        inoutrow.input=finalInput;
+                        inoutrow.output=inoutrow.input;
+                        inoutrow.output.push(inoutrow.id);
+                        inoutrow.input=inoutrow.input.filter((inc)=>{return inc!=inoutrow.id});
+                    }
+                    
+                    
+                }
+                
+            })
+            //Arrivati a questo punto, vado a tradurre i nomi e li imposto direttamente negli input/outputcontext degli intent
+            inouttable.forEach((riga)=>{
+                riga.id=translateIDIntent(riga.id,agentXML);
+                for (i=0;i<riga.input.length;i++){
+                    riga.input[i]=translateIDIntent(riga.input[i],agentXML);
+                }
+                for (i=0;i<riga.output.length;i++){
+                    riga.output[i]=translateIDIntent(riga.output[i],agentXML);
+                }
+                
+            });
+            for (i=0;i<agentXML.intents.length;i++){
+                var intentTable=inouttable.filter((intentSearch)=>{return intentSearch.id==agentXML.intents[i].name})[0];
+                agentXML.intents[i].inputContexts=intentTable.input;
+                agentXML.intents[i].outputContexts=intentTable.output;
+
+            }
+            
+            console.log("ok");
+
+
            
         }
         else {
@@ -123,6 +238,12 @@ module.exports={
     });
     return agentXML;
 }}
+
+//Traduce l'id xml nel nome dell'intent
+function translateIDIntent(id,agent){
+    return agent.intents.filter((intent)=>{return intent.id==id})[0].name;
+}
+
 
 //Dividiamo la training phrase per trovare eventuali termini chiave da associare ai parameters del nostro intent
 function splitTrainingPhrase(trainingPhrase,parameters){

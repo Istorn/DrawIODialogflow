@@ -7,6 +7,8 @@ module.exports=class IntentXML{
         this.parameters=[];
         this.parentFollowupIntentName="";
         this.rootFollowupIntentName="";
+        this.inputContexts=[];
+        this.outputContexts=[];
     }
 }
 

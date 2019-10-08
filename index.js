@@ -33,60 +33,51 @@ console.log(agentXML);
  agentXML.intents.forEach((intent)=>{
   createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters)
   .then((response)=>{
-      
+      //Intent creato, passiamo a creare i context output e input
       intentcreated.push(response[0]);
       console.log(response[0].displayName+" Creato.");
       
-      updateIntent(response[0]);
+      updateIntent(response[0],agentXML.intents).then((response)=>{
+          console.log(response[0].displayName+" integrati context");
+      });
   });
 });
 
 
 
-//Da testare
-async function createContexts(intent){
-  
-    const dialogflow = require('dialogflow');
-  
-    // Instantiates the Intent Client
-    const intentsClientup = new dialogflow.ContextsClient(
-        {options: credentials,}
-    );
-    
-    // The path to identify the agent that owns the created intent.
-    const agentPath = intentsClientup.getProjectId(projectId);
-     const createContextRequest = {
-      parent: agentPath,
-      context: {
-        name:intent.name,
-
-      }
-    };
-  
-    try{
-      const responses = await intentsClientup.createContext(createContextRequest);
-      console.log(`${responses[0].name} updated`);
-      return responses;
-      
-    }
-    catch (e){
-      console.log(e);
-      return e;
-    }
-  
+//Funzione per ottenere il padre
+function getFatherIntent(intent,followUps){
+  followUps.forEach((followup)=>{
+    if (followup.son==intent.id)
+      return followup.father;
+  });
+  return "";
+}
+//Funzione per ottenere il figlio
+function getSonIntent(intent,followUps){
+  followUps.forEach((followup)=>{
+    if (followup.father==intent.id)
+      return followup.son;
+  });
+  return "";
 }
 
+//Funzione per aggiungere in coda gli input/outputcontext una volta creato l'intent
 
-//Funzione per aggiungere in coda ggli input/outputcontext una volta creato l'intent
-
-async function updateIntent(intentTU){
+async function updateIntent(intentTU,allIntents){
   const dialogflow = require('dialogflow');
   
     // Instantiates the Intent Client
     const intentsClientup = new dialogflow.IntentsClient(
         {credentials: credentials,}
     );
-  
+      //Verifichiamo se è followup di qualche altro intent oppure bisogna passargli dei followup
+      intentTU.inputContextNames=[];
+      intentTU.outputContexts=[];
+      allIntents.forEach((intentToParse)=>{
+
+      });
+      
     // The path to identify the agent that owns the created intent.
     const agentPath = intentsClientup.projectAgentPath(projectId);
       intentsClientup.getProjectId().then((promise)=>{
@@ -110,11 +101,11 @@ async function updateIntent(intentTU){
       intent: intentTU,
     };
   
-    // Create the intent
+    //Aggiorniamo l'intent
     try{
       const responses = await intentsClientup.updateIntent(updateIntentRequest);
       return responses;
-      console.log(`${responses[0].name} updated`);
+      
     }
     catch (e){
       console.log(e);
@@ -141,11 +132,6 @@ function isParameterTwicePresent(parameter,trainingPhrases){
   }
   return false;
 }
-
-
-
-
-
 
 //Funzione per creare l'intent
 
@@ -289,19 +275,7 @@ async function createIntent(
     });
 
 
-   //Verifichiamo se è followup di qualche altro intent oppure bisogna passargli dei followup
-  
-    followUps.forEach((followUp)=>{
-      //Verifichiamo se questa intent in questione è followup o diventa followup di qualcun altro
-      if (followUp.father==intent.id){
-        //È padre, quindi ha dei suoi followup: Dobbiamo impostare l'outputcontext e verificare se non ne ha altri a corredo
-        
-
-      }
-      else if (followUp.son==intent.id){
-        //È un followup di un altro intent: dobbiamo impostare i suoi input context
-      }
-    });
+   
     
     //Costruiamo l'Intent
     
