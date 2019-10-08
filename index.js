@@ -37,7 +37,7 @@ console.log(agentXML);
       intentcreated.push(response[0]);
       console.log(response[0].displayName+" Creato.");
       
-      updateIntent(response[0],agentXML.intents).then((response)=>{
+      updateIntent(response[0],intent).then((response)=>{
           console.log(response[0].displayName+" integrati context");
       });
   });
@@ -45,53 +45,40 @@ console.log(agentXML);
 
 
 
-//Funzione per ottenere il padre
-function getFatherIntent(intent,followUps){
-  followUps.forEach((followup)=>{
-    if (followup.son==intent.id)
-      return followup.father;
-  });
-  return "";
-}
-//Funzione per ottenere il figlio
-function getSonIntent(intent,followUps){
-  followUps.forEach((followup)=>{
-    if (followup.father==intent.id)
-      return followup.son;
-  });
-  return "";
-}
+
 
 //Funzione per aggiungere in coda gli input/outputcontext una volta creato l'intent
 
-async function updateIntent(intentTU,allIntents){
+async function updateIntent(intentTU,intentXML){
   const dialogflow = require('dialogflow');
   
     // Instantiates the Intent Client
     const intentsClientup = new dialogflow.IntentsClient(
         {credentials: credentials,}
     );
-      //Verifichiamo se è followup di qualche altro intent oppure bisogna passargli dei followup
-      intentTU.inputContextNames=[];
-      intentTU.outputContexts=[];
-      allIntents.forEach((intentToParse)=>{
-
-      });
-      
-    // The path to identify the agent that owns the created intent.
     const agentPath = intentsClientup.projectAgentPath(projectId);
-      intentsClientup.getProjectId().then((promise)=>{
-        console.log(promise);
-      });
+    intentTU.inputContextNames=[];
+    //Aggiungiamo gli input context
+      intentXML.inputContexts.forEach((inputC)=>{
+        intentTU.inputContextNames.push(agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+inputC);
+      })
       
-      //Arrivati a questo punto della callback, Aggiungiamo input e outputcontext per ogni Intent
-      intentTU.inputContextNames=[agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+intentTU.displayName];
-      intentTU.outputContexts.push({
+      //Aggiungiamo gli ouput
+      intentXML.outputContexts.forEach((outputC)=>{
+        intentTU.outputContexts.push({
         
-          name: agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+intentTU.displayName,
+          name: agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+outputC,
           lifespanCount: 10
         
       });
+      })
+      
+    // The path to identify the agent that owns the created intent.
+    
+      
+      
+      
+      
       
     
     
