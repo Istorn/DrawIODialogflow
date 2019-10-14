@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="www.draw.io" modified="2019-10-14T11:03:24.454Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" etag="JLyMoCf7fyWBUAkhCP-t" version="12.1.0" type="google" pages="1">
+  <diagram id="FK8tCvI0DkWrNq1NLWpr" name="Page-1">
+    <mxGraphModel dx="1573" dy="985" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="m9z5izrNx-f_9kEFme2o-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="he4hjkcVImoBNZNIi_1m-1" target="m9z5izrNx-f_9kEFme2o-1" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="8oAD1e0_qDYBJstSBCM_-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="he4hjkcVImoBNZNIi_1m-1" target="8oAD1e0_qDYBJstSBCM_-1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="he4hjkcVImoBNZNIi_1m-1" value="nome: benvenuto&lt;br&gt;phrases: ciao mi chiamo &lt;font color=&quot;#ff3333&quot;&gt;Marco&lt;/font&gt;§Buongiorno sono &lt;font color=&quot;#ff3333&quot;&gt;Silvia&lt;/font&gt;&lt;br&gt;parameters: &lt;font color=&quot;#ff3333&quot;&gt;nome&lt;/font&gt;&lt;br&gt;answer: ciao &lt;font color=&quot;#ff3333&quot;&gt;nome&lt;/font&gt; come posso aiutarti?" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="50" y="20" width="220" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="m9z5izrNx-f_9kEFme2o-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="m9z5izrNx-f_9kEFme2o-1" target="m9z5izrNx-f_9kEFme2o-4" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m9z5izrNx-f_9kEFme2o-1" value="nome: stazione&lt;br&gt;phrases: voglio partire da &lt;font color=&quot;#0000ff&quot;&gt;Milano&lt;/font&gt;§parto da &lt;font color=&quot;#0000ff&quot;&gt;Genova&lt;/font&gt;&lt;br&gt;parameters: &lt;font color=&quot;#0000ff&quot;&gt;stazionepartenza&lt;/font&gt;&lt;br&gt;answer: ok perfetto &lt;font color=&quot;#ff3333&quot;&gt;benvenuto.nome&lt;/font&gt;, vuoi partire da &lt;font color=&quot;#0000ff&quot;&gt;stazionepartenza &lt;/font&gt;e dove vuoi dirigerti?" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="37.5" y="417.5" width="245" height="245" as="geometry"/>
+        </mxCell>
+        <mxCell id="m9z5izrNx-f_9kEFme2o-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.014;entryY=0.545;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="m9z5izrNx-f_9kEFme2o-4" target="m9z5izrNx-f_9kEFme2o-6" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m9z5izrNx-f_9kEFme2o-4" value="nome: stazione2&lt;br&gt;phrases: a &lt;font color=&quot;#00ff00&quot;&gt;Como&lt;/font&gt;§arrivo a &lt;font color=&quot;#00ff00&quot;&gt;Salerno&lt;/font&gt;&lt;br&gt;parameters: &lt;font color=&quot;#00ff00&quot;&gt;stazionearrivo&lt;/font&gt;&lt;br&gt;answer: perciò &lt;font color=&quot;#ff3333&quot;&gt;bevenuto.nome&lt;/font&gt;, tu parti da &lt;font color=&quot;#0000ff&quot;&gt;stazione.stazionepartenza&lt;/font&gt; e vuoi arrivare a &lt;font color=&quot;#00ff00&quot;&gt;stazionearrivo&lt;/font&gt;, confermi?" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="38" y="710" width="240" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="m9z5izrNx-f_9kEFme2o-6" value="nome: percorso&lt;br&gt;phrases: confermo§precisamente&lt;br&gt;API: trenitalia" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="373" y="710" width="307" height="307" as="geometry"/>
+        </mxCell>
+        <mxCell id="m9z5izrNx-f_9kEFme2o-8" value="API: trenitalia&lt;br&gt;url:&lt;br&gt;method:&lt;br&gt;input:&lt;br&gt;output:&lt;br&gt;answer:" style="shape=dataStorage;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="553.5" y="60" width="253" height="270" as="geometry"/>
+        </mxCell>
+        <mxCell id="8oAD1e0_qDYBJstSBCM_-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="8oAD1e0_qDYBJstSBCM_-1" target="8oAD1e0_qDYBJstSBCM_-3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="8oAD1e0_qDYBJstSBCM_-1" value="nome: pedonale&lt;br&gt;phrases: voglio andare a piedi da &lt;font color=&quot;#99004d&quot;&gt;Porta Garibaldi&lt;/font&gt;§Devo dirigermi a piedi da &lt;font color=&quot;#99004d&quot;&gt;Loreto&lt;/font&gt;&lt;br&gt;parameters: &lt;font color=&quot;#99004d&quot;&gt;pedonalepartenza&lt;/font&gt;&lt;br&gt;answer: &lt;font color=&quot;#ff3333&quot;&gt;benvenuto.nome&lt;/font&gt;, dove vuoi dirigerti partendo da &lt;font color=&quot;#99004d&quot;&gt;pedonalepartenza&lt;/font&gt;?" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="373" y="418" width="242" height="242" as="geometry"/>
+        </mxCell>
+        <mxCell id="8oAD1e0_qDYBJstSBCM_-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="8oAD1e0_qDYBJstSBCM_-3" target="8oAD1e0_qDYBJstSBCM_-5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="8oAD1e0_qDYBJstSBCM_-3" value="nome: pedonale2&lt;br&gt;phrases: devo arrivare a &lt;font color=&quot;#4d9900&quot;&gt;Caiazzo&lt;/font&gt;§mi dirigo a &lt;font color=&quot;#4d9900&quot;&gt;Udine&lt;/font&gt;&lt;br&gt;parameters: &lt;font color=&quot;#4d9900&quot;&gt;pedonalearrivo&lt;/font&gt;&lt;br&gt;answer: &lt;font color=&quot;#ff3333&quot;&gt;benvenuto.nome&lt;/font&gt;, tutto chiaro. Quindi vuoi raggiungere &lt;font color=&quot;#4d9900&quot;&gt;pedonalearrivo&lt;/font&gt; partendo a piedi da &lt;font color=&quot;#99004d&quot;&gt;pedonale.pedonalepartenza&lt;/font&gt; corretto?" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="700" y="417.5" width="242" height="242" as="geometry"/>
+        </mxCell>
+        <mxCell id="8oAD1e0_qDYBJstSBCM_-5" value="nome: percorsopedonale&lt;br&gt;phrases: corretto§sì&lt;br&gt;API: ATM" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="418" width="242" height="242" as="geometry"/>
+        </mxCell>
+        <mxCell id="8oAD1e0_qDYBJstSBCM_-7" value="API: ATM&lt;br&gt;url:&lt;br&gt;method:&lt;br&gt;input:&lt;br&gt;output:&lt;br&gt;answer:" style="shape=dataStorage;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="913.5" y="60" width="253" height="270" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -20,7 +20,7 @@ const agentClient = new dialogflow.IntentsClient({
 
 const projectId = 'test1drawio-ttlbdt';
 const agentPath = agentClient.projectAgentPath(projectId);
-var botFile='TestBotFinal.xml';
+var botFile='TestBotFinal2.xml';
 const agentXMLCreator=require('./parserGraph');
 var agentXML;
 agentXML=agentXMLCreator.parseGraph(botFile);
@@ -75,16 +75,7 @@ async function updateIntent(intentTU,intentXML){
       });
       })
       
-    // The path to identify the agent that owns the created intent.
     
-      
-      
-      
-      
-      
-    
-    
-  
     const updateIntentRequest = {
       parent: agentPath,
       intent: intentTU,
@@ -163,7 +154,7 @@ async function createIntent(
             //entityType: piece.entityType.substr(1,piece.entityType.length),
             entityType: "@sys.any",
             alias:piece.entityType.substr(1,piece.entityType.length),
-            userDefined: false,
+            userDefined: true,
             isList:false
 
           };
@@ -200,9 +191,10 @@ async function createIntent(
       //ci prendiamo tutti i suoi attributi
       parameterBOT.push({
         displayName:parameter.name,
-        entityType: "sys.any",
+        entityType: "@sys.any",
         value: "$"+parameter.name,
         isList:false,
+
 
         
       })
@@ -284,7 +276,7 @@ async function createIntent(
       intent: intent,
     };
   
-    // Create the intent
+    // Creiamo l'intent
     try{
       const responses = await intentsClient.createIntent(createIntentRequest);
       responses[0].trainingPhrases=intent.trainingPhrases;
