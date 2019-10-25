@@ -9,6 +9,7 @@ module.exports=class IntentXML{
         this.rootFollowupIntentName="";
         this.inputContexts=[];
         this.outputContexts=[];
+        this.WebHookState="";
     }
 }
 

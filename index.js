@@ -20,7 +20,7 @@ const agentClient = new dialogflow.IntentsClient({
 
 const projectId = 'test1drawio-ttlbdt';
 const agentPath = agentClient.projectAgentPath(projectId);
-var botFile='TestBotFinal2.xml';
+var botFile='Untitled Diagram (2).xml';
 const agentXMLCreator=require('./parserGraph');
 var agentXML;
 agentXML=agentXMLCreator.parseGraph(botFile);
@@ -33,14 +33,14 @@ console.log(agentXML);
   var intentcreated=[];
 
  agentXML.intents.forEach((intent)=>{
-  createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters)
+  createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters, intent.WebhookState)
   .then((response)=>{
       //Intent creato, passiamo a creare i context output e input
       intentcreated.push(response[0]);
       console.log(response[0].displayName+" Creato.");
       
       updateIntent(response[0],intent).then((response)=>{
-          console.log(response[0].displayName+" integrati context");
+          console.log("Contesti per l'intent "+response[0].displayName+" integrati.");
       });
   });
 });
@@ -123,7 +123,8 @@ async function createIntent(
     trainingPhrases,
     messageTexts,
     followUps=[],
-    parameters=[]
+    parameters=[],
+    WebhookState
     
   ) {
     // [START dialogflow_create_intent]
@@ -266,6 +267,7 @@ async function createIntent(
         trainingPhrases: trainingPhrasesBOT,
         messages: messagesBuilt,
         //parameters:parameterBOT,
+        webhookState: WebhookState
        
       };
     

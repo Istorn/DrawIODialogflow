@@ -25,54 +25,92 @@ module.exports={
                 if (graphXMLCells[i].ATTR.style!=undefined){
                     //Entità del grafo valida
                     //Verifichiamo se si tratta di un intent o di una freccia, che indica il follow-up tra entità
-                    var valueXML=graphXMLCells[i].ATTR.value;
+                    
                     if (graphXMLCells[i].ATTR.style.indexOf('edgeStyle')>=0){
                         //Freccia
                         var followup=new ClassfollowupXML();
+                        //Prendiamo il padre della sezione più in basso.
+
                         followup.father=graphXMLCells[i].ATTR.source;
+                        graphXMLCells.forEach((cell)=>{
+                            if (cell.ATTR.id==followup.father){
+                                followup.father=cell.ATTR.parent;
+                                return;
+                            }
+                        });
                         followup.son=graphXMLCells[i].ATTR.target;
                         //Aggiungiamo
                         followups.push(followup);
-                    }else if (graphXMLCells[i].ATTR.style.indexOf("dataStorage")<0){
+                    }else if (graphXMLCells[i].ATTR.style.indexOf("childLayout")>=0){
                         //Intent/Fulfillment
+                        var valueXML=graphXMLCells[i].ATTR.value;
                         
-                        if (valueXML.indexOf("nome: ")<0){
-                            console.error("L'intent non ha un nome impostato");
-                            break;
-                        }
-                        else{
                             //Spezziamo il contenuto del value
+
+                            //Andiamo a prendere il necessario da ogni sezione
     
                             //Normalizziamo i caratteri speciali
                             valueXML.replace("&lt;","<");
                             valueXML.replace("&gt;",">");
                             valueXML.replace("&quot;","\"");
+                            valueXML.replace("&amp;","\"");
                             //Nome
-                            var name=valueXML.substr(valueXML.indexOf("nome: ")+"nome: ".length,valueXML.indexOf("<br>")-"nome: ".length);
-                            valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
-                            if (valueXML.indexOf("parameters: ")>=0){
-                                //Ci sono parameters da prendere
-                                var parameters=[];
-                                //var stringParameters=valueXML.substr(valueXML.indexOf("parameters: ")+"parameters: ".length,(valueXML.indexOf("answer:")-4)-"parameters: ".length);
-                                var stringParameters=valueXML.split("<br>")[1];
+                            var name=valueXML;
+                            
+                            //Sezione 1: frasi
+                            var phraseString="";
+                            graphXMLCells.forEach((cell)=>{
+                                
+                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                    if (cell.ATTR.value=="Frasi"){
+                                        var finalFrasi="";
+                                        graphXMLCells.forEach((cellFrasi)=>{
+                                                if (cellFrasi.ATTR.parent==cell.ATTR.id){
+                                                    finalFrasi=cellFrasi.ATTR.value;
+                                                    
+                                                }
+                                        });
+                                        phraseString=finalFrasi;
+                                        //Rimuoviiamo entità HTML in eccesso
+                                        phraseString=phraseString.replace(/<\/?span[^>]*>/g,"");
+                                        phraseString=phraseString.replace(/<\?br[^>]*>/g,"");
+                                        phraseString=phraseString.replace("&nbsp;","");
+                                    }
+                                }
+                            });
+                            //Sezione 2: parametri
+                            var parameters=[];
+                            var stringParameters="";
+                            graphXMLCells.forEach((cell)=>{
+                                
+                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                    if (cell.ATTR.value=="Parametri"){
+                                        var finalParams="";
+                                        graphXMLCells.forEach((cellParams)=>{
+                                                if (cellParams.ATTR.parent==cell.ATTR.id){
+                                                    finalParams=cellParams.ATTR.value;
+                                                    
+                                                }
+                                        });
+                                        stringParameters=finalParams;
+                                        //Rimuoviiamo entità HTML in eccesso
+                                        stringParameters=stringParameters.replace(/<\/?span[^>]*>/g,"");
+                                        stringParameters=stringParameters.replace(/<\?br[^>]*>/g,"");
+                                        stringParameters=stringParameters.replace("&nbsp;","");
+                                    }
+                                }
+                            });
+                            
                                 //Li normalizziamo
                                 stringParameters.split("§").forEach(element => {
                                     if (element.length>0)
                                         parameters.push(getParameterByXML(element));
                                 });
-                                //valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
-                                
-                                
-    
-                            }
-                            else{
-                                var parameters=[];
-                            }
+                         
                             var phrases=[];
-                            //var stringPhrases=valueXML.substr(valueXML.indexOf("phrases: ")+"phrases: ".length,valueXML.indexOf("<br>")-"phrases: ".length);
-                            var stringPhrases=valueXML.split("<br>")[0];
-                            stringPhrases=stringPhrases.substr(9,(stringPhrases.length-9));
-                            phrases=stringPhrases.split("§");
+                            
+                            
+                            phrases=phraseString.split("§");
                             //Dobbiamo dividere ogni frase in pezzi.
                             //Il motivo è dato dalla eventuale presenza di termini chiave da associare ai parameters
                             phrases=phrases.map((phrase)=>{
@@ -80,21 +118,37 @@ module.exports={
                             });
     
                             
-
-                            //valueXML=valueXML.substr(valueXML.indexOf("<br>")+4,valueXML.length);
-                            //Risposte: se si tratta di risposte base allora procediamo così, diversamente dovremo optare per le api esterne
-                            if (valueXML.indexOf("answer: ")>0){
-                                var risposteString=valueXML.split("<br>")[2];
-                                risposteString=risposteString.substr(8,risposteString.length-8);
-                                var risposte=risposteString.split("§");
+                            //Sezione 3: risposte
+                            var stringAnswer="";
+                            graphXMLCells.forEach((cell)=>{
+                                
+                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                    if (cell.ATTR.value=="Risposte"){
+                                        var finalAnswer="";
+                                        graphXMLCells.forEach((cellRisposte)=>{
+                                                if (cellRisposte.ATTR.parent==cell.ATTR.id){
+                                                    finalAnswer=cellRisposte.ATTR.value;
+                                                    
+                                                }
+                                        });
+                                        stringAnswer=finalAnswer;
+                                        //Rimuoviiamo entità HTML in eccesso
+                                        stringAnswer=stringAnswer.replace(/<\/?span[^>]*>/g,"");
+                                        stringAnswer=stringAnswer.replace(/<\?br[^>]*>/g,"");
+                                        stringAnswer=stringAnswer.replace("&nbsp;","");
+                                    }
+                                }
+                            });
+                            var risposte=stringAnswer.split("§");
                             
                                 //Lo stesso criterio, lo dobbiamo applicare alle risposte
                                 risposte=risposte.map((risposta)=>{
                                     return splitAnswer(risposta,parameters);
                                 });
-                            }
-                         
-                            
+                               
+                            //Sezione 4: API
+                            var hasAPI=0;
+
                             //Creiamo l'intent
                             var intentXML=new ClassintentXML();
                             intentXML.id=graphXMLCells[i].ATTR.id;
@@ -104,11 +158,16 @@ module.exports={
                             intentXML.parameters=parameters;
                             intentXML.inputContexts=[];
                             intentXML.outputContexts=[];
+                            if (hasAPI==1){
+                                intentXML.WebHookState="WEBHOOK_STATE_ENABLED_FOR_SLOT_FILLING";
+                            }else{
+                                intentXML.WebHookState="WEBHOOK_STATE_UNSPECIFIED";
+                            }
                             //lo aggiungiamo alla lista
                             intentsXML.push(intentXML);
     
-                        }
-                    }else{
+                        
+                    }else if (graphXMLCells[i].ATTR.style.indexOf('dataStorage')>=0){
                         //API
                     }
                 }
