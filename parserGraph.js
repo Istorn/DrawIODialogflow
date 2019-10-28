@@ -10,11 +10,14 @@ module.exports={
     let xml_string = fs.readFileSync("./BOTXML/"+fileName, "utf8");
     const ClassagentXML=require('./agentXML');
     var agentXML=new ClassagentXML();
+    const ClassAPIClass=require('./APIClass.js');
+    var APIXML=[];
     var ClassintentXML=require('./IntentXML');
     var ClassfollowupXML=require('./followupXML');
     var intentsXML=[];
     var followups=[];
-
+    var intentAPIRequired=[];
+    var APItoIntent=[];
     //Funzione di parsing
 
     parser.parseString(xml_string, function(error, result) {
@@ -148,11 +151,24 @@ module.exports={
                                
                             //Sezione 4: API
                             var hasAPI=0;
-
+                            graphXMLCells.forEach((cell)=>{
+                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                    if (cell.ATTR.value=="API"){
+                                        hasAPI=1;
+                                        //Prendiamo il nome dell'api richiesta
+                                        graphXMLCells.forEach((cellAPI)=>{
+                                            if (cellAPI.ATTR.parent==cell.ATTR.id){
+                                                intentAPIRequired.push({"intentName":name.toLowerCase(),"APIRequired":cellAPI.ATTR.value});
+                                            }
+                                        });
+                                        
+                                    }
+                                }
+                            });
                             //Creiamo l'intent
                             var intentXML=new ClassintentXML();
                             intentXML.id=graphXMLCells[i].ATTR.id;
-                            intentXML.name=name;
+                            intentXML.name=name.toLowerCase();
                             intentXML.trainingPhrases=phrases;
                             intentXML.risposte.push(risposte);
                             intentXML.parameters=parameters;
@@ -169,6 +185,98 @@ module.exports={
                         
                     }else if (graphXMLCells[i].ATTR.style.indexOf('dataStorage')>=0){
                         //API
+                        //Prendiamo il valore della stringa intera
+                        var stringAPI=graphXMLCells[i].ATTR.value;
+                        stringAPI=stringAPI.replace(/<\/?div[^>]*>/g,"");
+                        stringAPI=stringAPI.replace(/<\/?br[^>]*>/g,"");
+                        stringAPI=stringAPI.replace(/<\/?img[^>]*>/g,"");
+                        stringAPI=stringAPI.replace(/<\/?span[^>]*>/g,"");
+                        stringAPI=stringAPI.replace("&nbsp;"," ");
+                        //1- nome
+                        var nameAPI=stringAPI.substr(0,stringAPI.indexOf("§"));
+                        nameAPI=nameAPI.replace(/<\/?font[^>]*>/g,"");
+                        nameAPI=nameAPI.substr(5,nameAPI.length-5).trim();
+                        stringAPI=stringAPI.substr(stringAPI.indexOf("§")+1,stringAPI.length-(stringAPI.indexOf("§")+1));
+                        //URL
+                        var indirizzo=stringAPI.substr("Indirizzo: ".length,stringAPI.indexOf("§")-"Indirizzo: ".length);
+                        indirizzo=indirizzo.replace(/<\/?font[^>]*>/g,"");
+                        
+                        stringAPI=stringAPI.substr(stringAPI.indexOf("§")+1,stringAPI.length-(stringAPI.indexOf("§")+1));
+                        if (stringAPI.indexOf("</font>")>=0){
+                            stringAPI=stringAPI.substr("</font>".length,stringAPI.length-("</font>".length));
+                        }
+                        
+                        //Risposta da generare
+                        var rispostaAPI=stringAPI.substr(0,stringAPI.indexOf("§"));
+                        rispostaAPI=rispostaAPI.replace("Risposta: ","");
+                        var finalRisposta="";
+                        var chars="";
+                        var i=0;
+                        //Dobbiamo separarla per capire quali pezzi sono base e quali altri invece provengono dal contesto conversazionale del bot
+                        while (rispostaAPI.length>0){
+                            //Leggiamo finchè non troviamo <font color="        
+                            if ((rispostaAPI[0]=="<") && (rispostaAPI[1]=="f")){
+                                //2- Abbiamo individuato un termine chiave
+                                
+                                
+                                //È un termine chiave: ce lo andiamo a prendere
+                                var termTAG=rispostaAPI.substr(i,rispostaAPI.indexOf("</font>")-i+"</font>".length);
+                                //Andiamondiamo a verificare in base al colore se si tratta di un pezzo di frase ordinario, oppure di un termine derivante dal contesto
+                                var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length+1,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
+                                color=color.substr(0,color.indexOf("\">"));
+                                if ((color=="000000")||(color="00000")){
+                                    //Pezzo normale
+                                    finalRisposta+=termTAG.replace(/<\/?font[^>]*>/g,"");
+                                    chars="";
+                                }
+                                else{
+                                    
+                                    var term=termTAG.replace(/<\/?font[^>]*>/g,"");
+                                    term=term.split(".");
+                                    finalRisposta+=" agent.getContext('"+term[0]+"').parameters."+term[1];
+                                    chars="";
+                                }
+                                
+                                //Tagliamo
+                                rispostaAPI=rispostaAPI.substr(termTAG.length,rispostaAPI.length-termTAG.length);
+                                
+                            }
+                           
+                            
+                         }
+
+
+                        stringAPI=stringAPI.substr(stringAPI.indexOf("§")+1,stringAPI.length-(stringAPI.indexOf("§")));
+                        if (stringAPI.indexOf("</font>")==0){
+                            stringAPI=stringAPI.substr("</font>".length,stringAPI.length-("</font>".length));
+                        }
+                        //Parametri
+                        var finalParams=[];
+                        var paramsAPI=stringAPI.replace(/<\/?font[^>]*>/g,"").split("§");
+                        paramsAPI.forEach((paramAPI)=>{
+                            finalParams.push({"name":paramAPI.trim().split(":")[0],"value":paramAPI.trim().split(":")[1]});
+                        });
+
+                        //Arrivati a questo punto, aggiungiamo al vettore delle API
+                        APIXML.push({
+                            "name":nameAPI,
+                            "url":indirizzo,
+                            "risposta":finalRisposta,
+                            "paramettri":finalParams
+                        });
+                    }
+                    else if (graphXMLCells[i].ATTR.style.indexOf('image=img/clipart/Gear_128x128.png')>=0){
+                        //Credenziali del bot
+                        var stringCredentials=graphXMLCells[i].ATTR.value;
+                        stringCredentials=stringCredentials.replace(/<\/?font[^>]*>/g,"");
+                        stringCredentials=stringCredentials.replace(/<\/?div[^>]*>/g,"");
+                        stringCredentials=stringCredentials.replace(/<\/?br[^>]*>/g,"");
+                        stringCredentials=stringCredentials.replace(/<\/?img[^>]*>/g,"");
+                        stringCredentials=stringCredentials.replace(/<\/?span[^>]*>/g,"");
+                        //ID project
+                        agentXML.ProjectID=stringCredentials.substr(3,stringCredentials.indexOf('Chiave: ')-3).trim();
+                        //Session Key
+                        agentXML.SessionKey=stringCredentials.substr(3+agentXML.ProjectID.length+'Chiave: '.length,stringCredentials.length-(3+agentXML.ProjectID.length+'Chiave: '.length)).trim();
                     }
                 }
             }
@@ -176,6 +284,9 @@ module.exports={
             //Creiamo l'agente
             agentXML.setIntents(intentsXML);
             agentXML.setFollowups(followups);
+
+            //Mappiamo le chiamate API sugli intent che le richiedono
+
             //Creiamo la tabella dei contesti
             var tableContext=[];
             agentXML.intents.forEach((intent)=>{

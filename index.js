@@ -18,14 +18,14 @@ const agentClient = new dialogflow.IntentsClient({
  credentials: credentials,
 });
 
-const projectId = 'test1drawio-ttlbdt';
-const agentPath = agentClient.projectAgentPath(projectId);
-var botFile='Untitled Diagram (2).xml';
+
+
+var botFile='BotFinaleWithAPI.xml';
 const agentXMLCreator=require('./parserGraph');
 var agentXML;
 agentXML=agentXMLCreator.parseGraph(botFile);
-
-
+const projectId = agentXML.ProjectID;
+const agentPath = agentClient.projectAgentPath(projectId);
 console.log(agentXML);
   //Per ogni intent parsato dal grafico, lo andiamo ad aggiungere al nostro agente
   //Da trasformare in una funzione ricorsiva asincrona: se gli intent padre non esistono ancora su Dialogflow, andrà in errore perché non trova i followup da associare
@@ -62,14 +62,14 @@ async function updateIntent(intentTU,intentXML){
     intentTU.inputContextNames=[];
     //Aggiungiamo gli input context
       intentXML.inputContexts.forEach((inputC)=>{
-        intentTU.inputContextNames.push(agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+inputC);
+        intentTU.inputContextNames.push(agentPath+"/sessions/"+agentXML.SessionKey+"/contexts/"+inputC);
       })
       
       //Aggiungiamo gli ouput
       intentXML.outputContexts.forEach((outputC)=>{
         intentTU.outputContexts.push({
         
-          name: agentPath+"/sessions/0548234f-5393-097a-be22-9aa5ff4f2356/contexts/"+outputC,
+          name: agentPath+"/sessions/"+agentXML.SessionKey+"/contexts/"+outputC,
           lifespanCount: 10
         
       });
@@ -155,7 +155,7 @@ async function createIntent(
             //entityType: piece.entityType.substr(1,piece.entityType.length),
             entityType: "@sys.any",
             alias:piece.entityType.substr(1,piece.entityType.length),
-            userDefined: true,
+            userDefined: false,
             isList:false
 
           };

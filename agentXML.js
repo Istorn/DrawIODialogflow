@@ -8,7 +8,8 @@ module.exports=class AgentXML{
         this.followups=[];
         this.inputContext=[];
         this.outputContext=[];
-    
+        this.SessionKey="";
+        this.ProjectID="";
         
     }
     
