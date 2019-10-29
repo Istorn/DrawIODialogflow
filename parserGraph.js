@@ -18,35 +18,36 @@ module.exports={
     var followups=[];
     var intentAPIRequired=[];
     var APItoIntent=[];
+    var intentMappedFile="";
     //Funzione di parsing
 
     parser.parseString(xml_string, function(error, result) {
         if(error === null) {
             //Leggiamo il grafo
             var graphXMLCells=result.mxfile.diagram[0].mxGraphModel[0].root[0].mxCell;
-            for (var i=0;i<graphXMLCells.length;i++){
-                if (graphXMLCells[i].ATTR.style!=undefined){
+            for (var k=0;k<graphXMLCells.length;k++){
+                if (graphXMLCells[k].ATTR.style!=undefined){
                     //Entità del grafo valida
                     //Verifichiamo se si tratta di un intent o di una freccia, che indica il follow-up tra entità
                     
-                    if (graphXMLCells[i].ATTR.style.indexOf('edgeStyle')>=0){
+                    if (graphXMLCells[k].ATTR.style.indexOf('edgeStyle')>=0){
                         //Freccia
                         var followup=new ClassfollowupXML();
                         //Prendiamo il padre della sezione più in basso.
 
-                        followup.father=graphXMLCells[i].ATTR.source;
+                        followup.father=graphXMLCells[k].ATTR.source;
                         graphXMLCells.forEach((cell)=>{
                             if (cell.ATTR.id==followup.father){
                                 followup.father=cell.ATTR.parent;
                                 return;
                             }
                         });
-                        followup.son=graphXMLCells[i].ATTR.target;
+                        followup.son=graphXMLCells[k].ATTR.target;
                         //Aggiungiamo
                         followups.push(followup);
-                    }else if (graphXMLCells[i].ATTR.style.indexOf("childLayout")>=0){
+                    }else if (graphXMLCells[k].ATTR.style.indexOf("childLayout")>=0){
                         //Intent/Fulfillment
-                        var valueXML=graphXMLCells[i].ATTR.value;
+                        var valueXML=graphXMLCells[k].ATTR.value;
                         
                             //Spezziamo il contenuto del value
 
@@ -64,7 +65,7 @@ module.exports={
                             var phraseString="";
                             graphXMLCells.forEach((cell)=>{
                                 
-                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
                                     if (cell.ATTR.value=="Frasi"){
                                         var finalFrasi="";
                                         graphXMLCells.forEach((cellFrasi)=>{
@@ -77,7 +78,7 @@ module.exports={
                                         //Rimuoviiamo entità HTML in eccesso
                                         phraseString=phraseString.replace(/<\/?span[^>]*>/g,"");
                                         phraseString=phraseString.replace(/<\?br[^>]*>/g,"");
-                                        phraseString=phraseString.replace("&nbsp;","");
+                                        phraseString=phraseString.replace(/&nbsp;/g,"");
                                     }
                                 }
                             });
@@ -86,7 +87,7 @@ module.exports={
                             var stringParameters="";
                             graphXMLCells.forEach((cell)=>{
                                 
-                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
                                     if (cell.ATTR.value=="Parametri"){
                                         var finalParams="";
                                         graphXMLCells.forEach((cellParams)=>{
@@ -99,7 +100,7 @@ module.exports={
                                         //Rimuoviiamo entità HTML in eccesso
                                         stringParameters=stringParameters.replace(/<\/?span[^>]*>/g,"");
                                         stringParameters=stringParameters.replace(/<\?br[^>]*>/g,"");
-                                        stringParameters=stringParameters.replace("&nbsp;","");
+                                        stringParameters=stringParameters.replace(/&nbsp;/g,"");
                                     }
                                 }
                             });
@@ -125,7 +126,7 @@ module.exports={
                             var stringAnswer="";
                             graphXMLCells.forEach((cell)=>{
                                 
-                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
                                     if (cell.ATTR.value=="Risposte"){
                                         var finalAnswer="";
                                         graphXMLCells.forEach((cellRisposte)=>{
@@ -138,7 +139,7 @@ module.exports={
                                         //Rimuoviiamo entità HTML in eccesso
                                         stringAnswer=stringAnswer.replace(/<\/?span[^>]*>/g,"");
                                         stringAnswer=stringAnswer.replace(/<\?br[^>]*>/g,"");
-                                        stringAnswer=stringAnswer.replace("&nbsp;","");
+                                        stringAnswer=stringAnswer.replace(/&nbsp;/g,"");
                                     }
                                 }
                             });
@@ -152,7 +153,7 @@ module.exports={
                             //Sezione 4: API
                             var hasAPI=0;
                             graphXMLCells.forEach((cell)=>{
-                                if (cell.ATTR.parent==graphXMLCells[i].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
                                     if (cell.ATTR.value=="API"){
                                         hasAPI=1;
                                         //Prendiamo il nome dell'api richiesta
@@ -167,7 +168,7 @@ module.exports={
                             });
                             //Creiamo l'intent
                             var intentXML=new ClassintentXML();
-                            intentXML.id=graphXMLCells[i].ATTR.id;
+                            intentXML.id=graphXMLCells[k].ATTR.id;
                             intentXML.name=name.toLowerCase();
                             intentXML.trainingPhrases=phrases;
                             intentXML.risposte.push(risposte);
@@ -183,15 +184,15 @@ module.exports={
                             intentsXML.push(intentXML);
     
                         
-                    }else if (graphXMLCells[i].ATTR.style.indexOf('dataStorage')>=0){
+                    }else if (graphXMLCells[k].ATTR.style.indexOf('dataStorage')>=0){
                         //API
                         //Prendiamo il valore della stringa intera
-                        var stringAPI=graphXMLCells[i].ATTR.value;
+                        var stringAPI=graphXMLCells[k].ATTR.value;
                         stringAPI=stringAPI.replace(/<\/?div[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/<\/?br[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/<\/?img[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/<\/?span[^>]*>/g,"");
-                        stringAPI=stringAPI.replace("&nbsp;"," ");
+                        stringAPI=stringAPI.replace(/&nbsp;/g," ");
                         //1- nome
                         var nameAPI=stringAPI.substr(0,stringAPI.indexOf("§"));
                         nameAPI=nameAPI.replace(/<\/?font[^>]*>/g,"");
@@ -222,9 +223,9 @@ module.exports={
                                 //È un termine chiave: ce lo andiamo a prendere
                                 var termTAG=rispostaAPI.substr(i,rispostaAPI.indexOf("</font>")-i+"</font>".length);
                                 //Andiamondiamo a verificare in base al colore se si tratta di un pezzo di frase ordinario, oppure di un termine derivante dal contesto
-                                var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length+1,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
-                                color=color.substr(0,color.indexOf("\">"));
-                                if ((color=="000000")||(color="00000")){
+                                var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
+                                color=color.substr(0,6);
+                                if ((color=="000000")){
                                     //Pezzo normale
                                     finalRisposta+=termTAG.replace(/<\/?font[^>]*>/g,"");
                                     chars="";
@@ -233,7 +234,12 @@ module.exports={
                                     
                                     var term=termTAG.replace(/<\/?font[^>]*>/g,"");
                                     term=term.split(".");
-                                    finalRisposta+=" agent.getContext('"+term[0]+"').parameters."+term[1];
+                                    if (term.indexOf("risposta.")>=0){
+                                        finalRisposta+=" "+term[0]+"."+term[1];
+                                    }else{
+                                        finalRisposta+=" agent.getContext('"+term[0]+"').parameters."+term[1];
+                                    }
+                                    
                                     chars="";
                                 }
                                 
@@ -252,9 +258,14 @@ module.exports={
                         }
                         //Parametri
                         var finalParams=[];
-                        var paramsAPI=stringAPI.replace(/<\/?font[^>]*>/g,"").split("§");
+                        
+                        var paramsAPI=stringAPI.replace(/<\/?font[^>]*>/g,"").trim().split("§");
+                        paramsAPI=paramsAPI.filter((val)=>{
+                            return val.length>0;
+                        })
                         paramsAPI.forEach((paramAPI)=>{
-                            finalParams.push({"name":paramAPI.trim().split(":")[0],"value":paramAPI.trim().split(":")[1]});
+                            paramAPI=paramAPI.replace(" ","");
+                            finalParams.push({"name":paramAPI.split(":")[0],"value":"agent.getContext('"+paramAPI.split(":")[1].split(".")[0]+"').parameters."+paramAPI.split(":")[1].split(".")[1]});
                         });
 
                         //Arrivati a questo punto, aggiungiamo al vettore delle API
@@ -262,12 +273,13 @@ module.exports={
                             "name":nameAPI,
                             "url":indirizzo,
                             "risposta":finalRisposta,
-                            "paramettri":finalParams
+                            "parametri":finalParams,
+                            "intent":""
                         });
                     }
-                    else if (graphXMLCells[i].ATTR.style.indexOf('image=img/clipart/Gear_128x128.png')>=0){
+                    else if (graphXMLCells[k].ATTR.style.indexOf('image=img/clipart/Gear_128x128.png')>=0){
                         //Credenziali del bot
-                        var stringCredentials=graphXMLCells[i].ATTR.value;
+                        var stringCredentials=graphXMLCells[k].ATTR.value;
                         stringCredentials=stringCredentials.replace(/<\/?font[^>]*>/g,"");
                         stringCredentials=stringCredentials.replace(/<\/?div[^>]*>/g,"");
                         stringCredentials=stringCredentials.replace(/<\/?br[^>]*>/g,"");
@@ -278,6 +290,7 @@ module.exports={
                         //Session Key
                         agentXML.SessionKey=stringCredentials.substr(3+agentXML.ProjectID.length+'Chiave: '.length,stringCredentials.length-(3+agentXML.ProjectID.length+'Chiave: '.length)).trim();
                     }
+                    console.log("Sto parsando la cella "+k);
                 }
             }
             
@@ -286,6 +299,69 @@ module.exports={
             agentXML.setFollowups(followups);
 
             //Mappiamo le chiamate API sugli intent che le richiedono
+            APIXML.forEach((api)=>{
+                intentAPIRequired.forEach((intentAPI)=>{
+                    if (api.name==intentAPI.APIRequired){
+                        api.intent=intentAPI.intentName;
+                        //Creiamo il codice necessario
+                        //URL mappato con i parametri
+                        var queryURL="";
+                        api.parametri.forEach((param)=>{
+                            queryURL+=param.name+"="+param.value+"&";
+                        });
+                        queryURL=queryURL.substr(0,queryURL.length-1);
+                        APItoIntent.push(`function `+api.name+`(agent){axios.get('`+api.url+`?`+queryURL+`').then((risposta)=>{
+                            agent.add(`+api.risposta+`);
+                                           });`);
+                        intentMappedFile+=`intentMap.set('`+intentAPI.intentName+`',`+api.name+`); `;
+                    }
+                });
+            });
+            
+            //Componiamo tutto il file necessario per realizzare il fulfillment del bot
+            var stringFile=`'use strict';
+            const axios=require('axios');
+            const functions = require('firebase-functions');
+            const {WebhookClient} = require('dialogflow-fulfillment');
+            const {Card, Suggestion} = require('dialogflow-fulfillment');
+            
+            process.env.DEBUG = 'dialogflow:debug'; 
+             
+            exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
+              const agent = new WebhookClient({ request, response });
+              console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
+              console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+             
+              function welcome(agent) {
+                agent.add('Benvenuto!');
+              }
+             
+              function fallback(agent) {
+                agent.add('Mi dispiace, ma non riesco a capire cosa hai detto.');
+                agent.add('Scusami, potresti ripetere di nuovo?');
+              }`;
+            APItoIntent.forEach((method)=>{
+                stringFile+=method;
+            });
+            stringFile+=`let intentMap = new Map();
+            intentMap.set('Default Welcome Intent', welcome);
+            intentMap.set('Default Fallback Intent', fallback);`;
+            stringFile+=intentMappedFile;
+            stringFile+=`agent.handleRequest(intentMap);        
+        });`;
+            
+
+            //Finalizziamo il file fulfillment
+            var fs=require('fs');
+            
+            fs.writeFile('./fulfillmentBOT.js', stringFile, function(err) {
+
+                if(err) {
+                    return console.log("Errore in fase di creazione file fulfillment: "+err);
+                }
+            
+                console.log("File fulfillment creato. Copiarne il contenuto in Dialogflow dal file presente in questa cartella: fulfillmentBOT.js.");
+            }); 
 
             //Creiamo la tabella dei contesti
             var tableContext=[];
@@ -418,6 +494,11 @@ function translateIDIntent(id,agent){
 //Dividiamo la training phrase per trovare eventuali termini chiave da associare ai parameters del nostro intent
 function splitTrainingPhrase(trainingPhrase,parameters){
     
+    trainingPhrase=trainingPhrase.replace(/<\/?span[^>]*>/g,"");
+    trainingPhrase=trainingPhrase.replace(/<\/?div[^>]*>/g,"");
+    trainingPhrase=trainingPhrase.replace(/<\/?br[^>]*>/g,"");
+    trainingPhrase=trainingPhrase.replace(/&nbsp;/g," ");
+
     var splittedTrainingPhrase=[];
     var chars="";
     //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
@@ -510,7 +591,10 @@ function findParameterInPhraseByColor(phrase,parameterColor){
 //Serve a dividere la risposta dell'intent al fine di verificare se include dei parameters
 function splitAnswer(answer,parameters){
     var splittedAnswer=[];
-
+    answer=answer.replace(/<\/?span[^>]*>/g,"");
+    answer=answer.replace(/<\/?div[^>]*>/g,"");
+    answer=answer.replace(/<\/?br[^>]*>/g,"");
+    answer=answer.replace(/&nbsp;/g," ");
 
 
     

@@ -33,7 +33,7 @@ console.log(agentXML);
   var intentcreated=[];
 
  agentXML.intents.forEach((intent)=>{
-  createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters, intent.WebhookState)
+  createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters, intent.WebHookState)
   .then((response)=>{
       //Intent creato, passiamo a creare i context output e input
       intentcreated.push(response[0]);
