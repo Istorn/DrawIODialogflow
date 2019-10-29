@@ -18,9 +18,11 @@
               function fallback(agent) {
                 agent.add('Mi dispiace, ma non riesco a capire cosa hai detto.');
                 agent.add('Scusami, potresti ripetere di nuovo?');
-              }function ApiTrenitalia(agent){axios.get('https://www.trenitalia.com?searchTravels?Destination=agent.getContext('stazione1').parameters.stazionepartenza&Arrival=agent.getContext('stazione2').parameters.stazionedestinazione').then((risposta)=>{
-                            agent.add(Il primo treno che parte da  agent.getContext('stazione1').parameters.stazionepartenza e arriva a  agent.getContext('stazione2').parameters.stazionedestinazione è il seguente:  agent.getContext('risposta[0]').parameters.nometreno alle ore  agent.getContext('risposta[0]').parameters.orario);
-                                           });let intentMap = new Map();
+              }function ApiTrenitalia(agent){axios.get("https://www.trenitalia.com?searchTravels?Destination="+agent.getContext('stazione1').parameters.stazionepartenza+"&"+"Arrival="+agent.getContext('stazione2').parameters.stazionedestinazione).then((risposta)=>{
+                            agent.add("Il primo treno che parte da  "+agent.getContext('stazione1').parameters.stazionepartenza+" e arriva a  "+agent.getContext('stazione2').parameters.stazionedestinazione+" è il seguente:  "+risposta[0].nometreno+" alle ore  "+risposta[0].orario+" ");
+                                           });
+                                        }let intentMap = new Map();
             intentMap.set('Default Welcome Intent', welcome);
-            intentMap.set('Default Fallback Intent', fallback);intentMap.set('ricercastazioni',ApiTrenitalia); agent.handleRequest(intentMap);        
+            intentMap.set('Default Fallback Intent', fallback);
+                        intentMap.set('ricercastazioni',ApiTrenitalia); agent.handleRequest(intentMap);        
         });

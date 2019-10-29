@@ -210,7 +210,7 @@ module.exports={
                         //Risposta da generare
                         var rispostaAPI=stringAPI.substr(0,stringAPI.indexOf("§"));
                         rispostaAPI=rispostaAPI.replace("Risposta: ","");
-                        var finalRisposta="";
+                        var finalRisposta=``;
                         var chars="";
                         var i=0;
                         //Dobbiamo separarla per capire quali pezzi sono base e quali altri invece provengono dal contesto conversazionale del bot
@@ -234,10 +234,21 @@ module.exports={
                                     
                                     var term=termTAG.replace(/<\/?font[^>]*>/g,"");
                                     term=term.split(".");
-                                    if (term.indexOf("risposta.")>=0){
-                                        finalRisposta+=" "+term[0]+"."+term[1];
+                                    if (term[0].indexOf("risposta")>=0){
+                                        if ((finalRisposta[finalRisposta.length-2]=='"') && (finalRisposta[finalRisposta.length-1]=="+")){
+                                            finalRisposta+=` `+term[0]+"."+term[1]+`+"`;
+                                        }else{
+                                            finalRisposta+=` "+`+term[0]+"."+term[1]+`+"`;
+                                        }
+                                        
                                     }else{
-                                        finalRisposta+=" agent.getContext('"+term[0]+"').parameters."+term[1];
+                                        if ((finalRisposta[finalRisposta.length-2]=='"') && (finalRisposta[finalRisposta.length-1]=="+")){
+                                            finalRisposta+=` agent.getContext('`+term[0]+`').parameters.`+term[1]+`+"`;
+                                        }
+                                        else{
+                                            finalRisposta+=` "+agent.getContext('`+term[0]+`').parameters.`+term[1]+`+"`;
+                                        }
+                                        
                                     }
                                     
                                     chars="";
@@ -251,7 +262,7 @@ module.exports={
                             
                          }
 
-
+                         
                         stringAPI=stringAPI.substr(stringAPI.indexOf("§")+1,stringAPI.length-(stringAPI.indexOf("§")));
                         if (stringAPI.indexOf("</font>")==0){
                             stringAPI=stringAPI.substr("</font>".length,stringAPI.length-("</font>".length));
@@ -307,13 +318,19 @@ module.exports={
                         //URL mappato con i parametri
                         var queryURL="";
                         api.parametri.forEach((param)=>{
-                            queryURL+=param.name+"="+param.value+"&";
+                            queryURL+='"'+param.name+'="+'+param.value+'+"&"+';
                         });
-                        queryURL=queryURL.substr(0,queryURL.length-1);
-                        APItoIntent.push(`function `+api.name+`(agent){axios.get('`+api.url+`?`+queryURL+`').then((risposta)=>{
-                            agent.add(`+api.risposta+`);
-                                           });`);
-                        intentMappedFile+=`intentMap.set('`+intentAPI.intentName+`',`+api.name+`); `;
+                        if (queryURL.length>0){
+                            queryURL=queryURL.substr(1,queryURL.length-6);
+                            queryURL=`?`+queryURL;
+                        }
+                        
+                        APItoIntent.push(`function `+api.name+`(agent){axios.get("`+api.url+queryURL+`).then((risposta)=>{
+                            agent.add("`+api.risposta+` ");
+                                           });
+                                        }`);
+                        intentMappedFile+=`
+                        intentMap.set('`+intentAPI.intentName+`',`+api.name+`); `;
                     }
                 });
             });
