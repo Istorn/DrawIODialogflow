@@ -301,7 +301,9 @@ module.exports={
                         //Session Key
                         agentXML.SessionKey=stringCredentials.substr(3+agentXML.ProjectID.length+'Chiave: '.length,stringCredentials.length-(3+agentXML.ProjectID.length+'Chiave: '.length)).trim();
                     }
-                    console.log("Sto parsando la cella "+k);
+                    console.log("Interpretazione grafico: "+parseInt(k/graphXMLCells.length*100)+"%");
+                    
+                    
                 }
             }
             
@@ -490,7 +492,7 @@ module.exports={
 
             }
             
-            console.log("ok");
+            console.log("Interpretazione grafico completata.");
 
 
            

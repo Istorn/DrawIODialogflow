@@ -12,7 +12,7 @@ const dialogflow = require('dialogflow');
 // Read in credentials from file. To get it, follow instructions here, but
 // choose 'API Admin' instead of 'API Client':
 // https://dialogflow.com/docs/reference/v2-auth-setup
-const credentials = require('./test1drawio.json');
+const credentials = require('./credenziali.json');
 
 const agentClient = new dialogflow.IntentsClient({
  credentials: credentials,
@@ -20,28 +20,33 @@ const agentClient = new dialogflow.IntentsClient({
 
 
 
-var botFile='BotFinaleWithAPI.xml';
+var botFile='chatbot.xml';
 const agentXMLCreator=require('./parserGraph');
 var agentXML;
 agentXML=agentXMLCreator.parseGraph(botFile);
 const projectId = agentXML.ProjectID;
 const agentPath = agentClient.projectAgentPath(projectId);
-console.log(agentXML);
+console.log("Agente creato. Caricamento dati in corso...");
   //Per ogni intent parsato dal grafico, lo andiamo ad aggiungere al nostro agente
-  //Da trasformare in una funzione ricorsiva asincrona: se gli intent padre non esistono ancora su Dialogflow, andrà in errore perché non trova i followup da associare
-  //Da rivedere, probabilmente non necessario
+  
   var intentcreated=[];
 
  agentXML.intents.forEach((intent)=>{
   createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters, intent.WebHookState)
   .then((response)=>{
-      //Intent creato, passiamo a creare i context output e input
+      //Verifichiamo se l'intent è stato creato. In tal caso, dobbiamo integrare i contesti del dialogo in un update
       intentcreated.push(response[0]);
-      console.log(response[0].displayName+" Creato.");
-      
-      updateIntent(response[0],intent).then((response)=>{
+      if (Array.isArray(response)){
+        console.log(response[0].displayName+" Creato.");
+        updateIntent(response[0],intent).then((response)=>{
           console.log("Contesti per l'intent "+response[0].displayName+" integrati.");
       });
+      }else{
+        console.error("Errore in fase di generazione per l'intent "+intent.name+". L'intent è già stato integrato nell'agente.");
+      }
+      
+      
+      
   });
 });
 
@@ -49,7 +54,7 @@ console.log(agentXML);
 
 
 
-//Funzione per aggiungere in coda gli input/outputcontext una volta creato l'intent
+//Funzione per aggiungere in update gli input/outputcontext una volta creato l'intent
 
 async function updateIntent(intentTU,intentXML){
   const dialogflow = require('dialogflow');
@@ -212,6 +217,7 @@ async function createIntent(
     //Facciamo altrettanto per i messaggi di risposta
     //TODO: capire perché non vengono presi da Dialogflow
     var messagesBuilt=[];
+    var messageToSet=[];
     messageTexts.forEach((message)=>{
         var messageToBuild="";
         message.forEach((piece)=>{
@@ -235,28 +241,31 @@ async function createIntent(
               messageToBuild+=" "+realPiece.text+" ";
             }
         
-          });    
+          });  
+          messageToBuild=messageToBuild.trim();
+          messageToBuild=messageToBuild.replace(/\s{2,}/g, ' ');
+          
+          messageToSet.push(messageToBuild);
+            
+            
+            
+          
+          
+          //Puliamo
+          messageToBuild="";  
         });
-        messageToBuild=messageToBuild.trim();
-        messageToBuild=messageToBuild.replace(/\s{2,}/g, ' ');
-        
-        
-        //Prendiamo la stringa
-        //Ne facciamo l'oggetto
-          messageText.text= [messageToBuild];
-          var messageToAdd={
-            text:messageText
-          }
-          
-          
-          messagesBuilt.push(messageToAdd);
-        
-        
-        //Puliamo
-        messageToBuild="";
+       
 
     });
-
+       
+          //Prendiamo la stringa
+          //Ne facciamo l'oggetto
+       
+    messageText.text= messageToSet;
+    var messageToAdd={
+      text:messageText
+    }
+    messagesBuilt.push(messageToAdd);
 
    
     

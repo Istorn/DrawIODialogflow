@@ -23,7 +23,7 @@
         <mxCell id="m0-oef0f0qb-4m2KXaeG-4" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="m0-oef0f0qb-4m2KXaeG-1" vertex="1">
           <mxGeometry y="260" width="520" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="hRAsFazEqZHqzmIs6ujT-12" value="Ciao &lt;font color=&quot;#ff0000&quot;&gt;nome&lt;/font&gt; come posso aiutarti?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="m0-oef0f0qb-4m2KXaeG-4" vertex="1">
+        <mxCell id="hRAsFazEqZHqzmIs6ujT-12" value="Salve &lt;font color=&quot;#ff0000&quot;&gt;nome&lt;/font&gt; come posso aiutarti?§Ciao &lt;font color=&quot;#ff0000&quot;&gt;nome&lt;/font&gt; come la posso aiutare?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="m0-oef0f0qb-4m2KXaeG-4" vertex="1">
           <mxGeometry x="169" y="50" width="190" height="20" as="geometry"/>
         </mxCell>
         <mxCell id="m0-oef0f0qb-4m2KXaeG-6" value="Stazione1" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
