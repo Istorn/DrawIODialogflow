@@ -499,7 +499,7 @@ module.exports={
            
         }
         else {
-            return error;
+            console.err("Errore in fase di parsing: "+error);
         }
     });
     return agentXML;

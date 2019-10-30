@@ -20,9 +20,10 @@ const agentClient = new dialogflow.IntentsClient({
 
 
 
-var botFile='chatbot2.xml';
+var botFile='chatbot.xml';
 const agentXMLCreator=require('./parserGraph');
 var agentXML;
+console.log("Inizio il parsing...");
 agentXML=agentXMLCreator.parseGraph(botFile);
 const projectId = agentXML.ProjectID;
 const agentPath = agentClient.projectAgentPath(projectId);
