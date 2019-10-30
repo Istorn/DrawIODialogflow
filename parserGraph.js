@@ -25,29 +25,29 @@ module.exports={
         if(error === null) {
             //Leggiamo il grafo
             var graphXMLCells=result.mxfile.diagram[0].mxGraphModel[0].root[0].mxCell;
-            for (var k=0;k<graphXMLCells.length;k++){
-                if (graphXMLCells[k].ATTR.style!=undefined){
+            for (var c=0;c<graphXMLCells.length;c++){
+                if (graphXMLCells[c].ATTR.style!=undefined){
                     //Entità del grafo valida
                     //Verifichiamo se si tratta di un intent o di una freccia, che indica il follow-up tra entità
                     
-                    if (graphXMLCells[k].ATTR.style.indexOf('edgeStyle')>=0){
+                    if (graphXMLCells[c].ATTR.style.indexOf('edgeStyle')>=0){
                         //Freccia
                         var followup=new ClassfollowupXML();
                         //Prendiamo il padre della sezione più in basso.
 
-                        followup.father=graphXMLCells[k].ATTR.source;
+                        followup.father=graphXMLCells[c].ATTR.source;
                         graphXMLCells.forEach((cell)=>{
                             if (cell.ATTR.id==followup.father){
                                 followup.father=cell.ATTR.parent;
                                 return;
                             }
                         });
-                        followup.son=graphXMLCells[k].ATTR.target;
+                        followup.son=graphXMLCells[c].ATTR.target;
                         //Aggiungiamo
                         followups.push(followup);
-                    }else if (graphXMLCells[k].ATTR.style.indexOf("childLayout")>=0){
+                    }else if (graphXMLCells[c].ATTR.style.indexOf("childLayout")>=0){
                         //Intent/Fulfillment
-                        var valueXML=graphXMLCells[k].ATTR.value;
+                        var valueXML=graphXMLCells[c].ATTR.value;
                         
                             //Spezziamo il contenuto del value
 
@@ -65,7 +65,7 @@ module.exports={
                             var phraseString="";
                             graphXMLCells.forEach((cell)=>{
                                 
-                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[c].ATTR.id){
                                     if (cell.ATTR.value=="Frasi"){
                                         var finalFrasi="";
                                         graphXMLCells.forEach((cellFrasi)=>{
@@ -87,20 +87,21 @@ module.exports={
                             var stringParameters="";
                             graphXMLCells.forEach((cell)=>{
                                 
-                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[c].ATTR.id){
                                     if (cell.ATTR.value=="Parametri"){
                                         var finalParams="";
-                                        graphXMLCells.forEach((cellParams)=>{
+                                        var celle=graphXMLCells;
+                                        celle.forEach((cellParams)=>{
                                                 if (cellParams.ATTR.parent==cell.ATTR.id){
                                                     finalParams=cellParams.ATTR.value;
-                                                    
+                                                    stringParameters=finalParams;
+                                                    //Rimuoviiamo entità HTML in eccesso
+                                                    stringParameters=stringParameters.replace(/<\/?span[^>]*>/g,"");
+                                                    stringParameters=stringParameters.replace(/<\?br[^>]*>/g,"");
+                                                    stringParameters=stringParameters.replace(/&nbsp;/g,"");
                                                 }
                                         });
-                                        stringParameters=finalParams;
-                                        //Rimuoviiamo entità HTML in eccesso
-                                        stringParameters=stringParameters.replace(/<\/?span[^>]*>/g,"");
-                                        stringParameters=stringParameters.replace(/<\?br[^>]*>/g,"");
-                                        stringParameters=stringParameters.replace(/&nbsp;/g,"");
+                                        
                                     }
                                 }
                             });
@@ -126,7 +127,7 @@ module.exports={
                             var stringAnswer="";
                             graphXMLCells.forEach((cell)=>{
                                 
-                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[c].ATTR.id){
                                     if (cell.ATTR.value=="Risposte"){
                                         var finalAnswer="";
                                         graphXMLCells.forEach((cellRisposte)=>{
@@ -139,7 +140,7 @@ module.exports={
                                         //Rimuoviiamo entità HTML in eccesso
                                         stringAnswer=stringAnswer.replace(/<\/?span[^>]*>/g,"");
                                         stringAnswer=stringAnswer.replace(/<\?br[^>]*>/g,"");
-                                        stringAnswer=stringAnswer.replace(/&nbsp;/g,"");
+                                        stringAnswer=stringAnswer.replace(/&nbsp;/g," ");
                                     }
                                 }
                             });
@@ -153,7 +154,7 @@ module.exports={
                             //Sezione 4: API
                             var hasAPI=0;
                             graphXMLCells.forEach((cell)=>{
-                                if (cell.ATTR.parent==graphXMLCells[k].ATTR.id){
+                                if (cell.ATTR.parent==graphXMLCells[c].ATTR.id){
                                     if (cell.ATTR.value=="API"){
                                         hasAPI=1;
                                         //Prendiamo il nome dell'api richiesta
@@ -168,7 +169,7 @@ module.exports={
                             });
                             //Creiamo l'intent
                             var intentXML=new ClassintentXML();
-                            intentXML.id=graphXMLCells[k].ATTR.id;
+                            intentXML.id=graphXMLCells[c].ATTR.id;
                             intentXML.name=name.toLowerCase();
                             intentXML.trainingPhrases=phrases;
                             intentXML.risposte.push(risposte);
@@ -184,10 +185,10 @@ module.exports={
                             intentsXML.push(intentXML);
     
                         
-                    }else if (graphXMLCells[k].ATTR.style.indexOf('dataStorage')>=0){
+                    }else if (graphXMLCells[c].ATTR.style.indexOf('dataStorage')>=0){
                         //API
                         //Prendiamo il valore della stringa intera
-                        var stringAPI=graphXMLCells[k].ATTR.value;
+                        var stringAPI=graphXMLCells[c].ATTR.value;
                         stringAPI=stringAPI.replace(/<\/?div[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/<\/?br[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/<\/?img[^>]*>/g,"");
@@ -288,9 +289,9 @@ module.exports={
                             "intent":""
                         });
                     }
-                    else if (graphXMLCells[k].ATTR.style.indexOf('image=img/clipart/Gear_128x128.png')>=0){
+                    else if (graphXMLCells[c].ATTR.style.indexOf('image=img/clipart/Gear_128x128.png')>=0){
                         //Credenziali del bot
-                        var stringCredentials=graphXMLCells[k].ATTR.value;
+                        var stringCredentials=graphXMLCells[c].ATTR.value;
                         stringCredentials=stringCredentials.replace(/<\/?font[^>]*>/g,"");
                         stringCredentials=stringCredentials.replace(/<\/?div[^>]*>/g,"");
                         stringCredentials=stringCredentials.replace(/<\/?br[^>]*>/g,"");
@@ -301,7 +302,7 @@ module.exports={
                         //Session Key
                         agentXML.SessionKey=stringCredentials.substr(3+agentXML.ProjectID.length+'Chiave: '.length,stringCredentials.length-(3+agentXML.ProjectID.length+'Chiave: '.length)).trim();
                     }
-                    console.log("Interpretazione grafico: "+parseInt(k/graphXMLCells.length*100)+"%");
+                    console.log("Interpretazione grafico: "+parseInt(c/graphXMLCells.length*100)+"%");
                     
                     
                 }
@@ -520,65 +521,81 @@ function splitTrainingPhrase(trainingPhrase,parameters){
 
     var splittedTrainingPhrase=[];
     var chars="";
-    //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
-    for (var i=0;i<trainingPhrase.length;i++){
+    
+    //0- Prima ancora di analizzare per intero la frase, verifichiamo se abbia almeno un parametro al suo interno, diversamente, si tratta di puro testo.
+    if (trainingPhrase.indexOf("<font")>=0){
+        //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
+        var i=0;
+        //Dobbiamo separarla per capire quali pezzi sono base e quali altri invece provengono dal contesto conversazionale del bot
+        while (trainingPhrase.length>0){
             //Leggiamo finchè non troviamo <font color="        
-        if ((trainingPhrase[i]=="<") && (trainingPhrase[i+1]=="f")){
-            //2- Abbiamo individuato un termine chiave
-            //Ma prima, verifichiamo se il buffer caratteri era pieno in precedenza
-            if (chars.length>0){
-                //Parte di frase normale
-                //Ci salviamo il pezzo di frase normale
-                splittedTrainingPhrase.push({
-                    text: chars
-                });
-
-                //Svuotiamo
-                chars="";
-            }
-            //È un termine chiave: ce lo andiamo a prendere
-            var termTAG=trainingPhrase.substr(i,trainingPhrase.indexOf("</font>")-i+"</font>".length);
-            //Andiamondiamo a verificare in base al colore a quale parameter associarlo
-            var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length+1,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
-            color=color.substr(0,color.indexOf("\">"));
-            //Andiamo a cercare nei parameters il parameter corrispondente
-            parameters.forEach((parameter)=>{
-                if (parameter.color==color){
-                    //L'abbiamo trovato, proseguiamo
-                    //In questo caso andiamo ad aggiungere il termine chiave ai valori del paramter in questione
-                    var value=termTAG.substr(termTAG.indexOf("\">")+"\">".length,termTAG.indexOf("</font>")-8);
-                    value=value.substr(0,value.indexOf("</font>"));   
-                    parameter.userValues.push(value);
-                    //E infine, aggiungiamo alla training phrase divisa
+            if ((trainingPhrase[i]=="<") && (trainingPhrase[i+1]=="f")){
+                //2- Abbiamo individuato un termine chiave
+                //Per prima cosa, verifichiamo se il buffer è pieno
+                if (chars.length>0){
                     splittedTrainingPhrase.push({
-                        text: value,
-                        entityType:"@"+parameter.name,
-                        alias:parameter.name,
+                        text: chars
                     });
+                    chars="";
+    
                 }
+                
+                //È un termine chiave: ce lo andiamo a prendere
+                var termTAG=trainingPhrase.substr(i,trainingPhrase.indexOf("</font>")-i+"</font>".length);
+                //Andiamondiamo a verificare in base al colore se si tratta di un pezzo di frase ordinario, oppure di un termine derivante dal contesto
+                var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
+                color=color.substr(0,6);
+                parameters.forEach((parameter)=>{
+                    if (parameter.color==color){
+                        //L'abbiamo trovato, proseguiamo
+                        //In questo caso andiamo ad aggiungere il termine chiave ai valori del paramter in questione
+                        var value=termTAG.substr(termTAG.indexOf("\">")+"\">".length,termTAG.indexOf("</font>")-8);
+                        value=value.substr(0,value.indexOf("</font>"));   
+                        parameter.userValues.push(value);
+                        //E infine, aggiungiamo alla training phrase divisa
+                        splittedTrainingPhrase.push({
+                            text: value,
+                            entityType:"@"+parameter.name,
+                            alias:parameter.name,
+                        });
+                        chars="";
+                        //Tagliamo
+                        trainingPhrase=trainingPhrase.substr(termTAG.length+i,trainingPhrase.length-(termTAG.length+i));
+                        i=0;
+                    }
+                });
+                
+                
+                
+            }
+            else{
+                chars+=trainingPhrase[i];
+                i++;
+            }
+           
+            
+         }
+        //Parte finale da aggiungere oppure trainingPhrases senza paramaters
+        if (chars.length>0){
+            splittedTrainingPhrase.push({
+                text: chars
             });
-            //Incrementiamo i per bypassare il pezzo appena considerato
-            i+=termTAG.length;
         }
-        else{
-            //carattere normale da aggiungere
-            chars+=trainingPhrase[i];
-        }
-    }
-    //Parte finale da aggiungere oppure trainingPhrases senza paramaters
-    if (chars.length>0){
+    }else{
         splittedTrainingPhrase.push({
-            text: chars
+            text: trainingPhrase
         });
     }
+    
 
     //Torniamo la training phrase divisa opportunamente
     return splittedTrainingPhrase;
     
+    
 }
 //Impostiamo i parametri in base ai colori e ai nomi
 function getParameterByXML(parameterString){
-    var color=parameterString.substr(parameterString.indexOf("color=\"#")+"color=\"#".length+1,parameterString.indexOf("\">")+"\">".length-"color=\"#".length);
+    var color=parameterString.substr(parameterString.indexOf("color=\"#")+"color=\"#".length,parameterString.indexOf("\">")+"\">".length-"color=\"#".length);
     color=color.substr(0,color.indexOf("\">"));
     var name=parameterString.substr(parameterString.indexOf("\">")+"\">".length,parameterString.indexOf("</font>")-8);
     name=name.substr(0,name.indexOf("</font>"));
@@ -616,8 +633,8 @@ function splitAnswer(answer,parameters){
     answer=answer.replace(/&nbsp;/g," ");
 
 
-    
-    var chars="";
+    if (parameters.length>0){
+        var chars="";
     //1- Analizziamo l'intera frase affinché possiamo riconoscere il testo puro dai temrini chiave da associare a un parameter
     var i=0;
     var readerString=answer;
@@ -694,4 +711,16 @@ function splitAnswer(answer,parameters){
 
     //Torniamo la training phrase divisa opportunamente
     return splittedAnswer;
+    }else{
+        //Intent senza parametri ad esso associati
+        answer=answer.replace(/<\/?font[^>]*>/g,"");
+        var answerAnalyze=answer.split(" ");
+        for (h=0;h<answerAnalyze.length;h++){
+            if (answerAnalyze[h].indexOf(".")>0){
+                answerAnalyze[h]="#"+answerAnalyze[h];
+            }
+        }
+        return answerAnalyze;
+    }
+    
 }
