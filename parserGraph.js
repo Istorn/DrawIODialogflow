@@ -77,6 +77,7 @@ module.exports={
                                         phraseString=finalFrasi;
                                         //Rimuoviiamo entità HTML in eccesso
                                         phraseString=phraseString.replace(/<\/?span[^>]*>/g,"");
+                                        phraseString=phraseString.replace(/<\/?p[^>]*>/g,"");
                                         phraseString=phraseString.replace(/<\?br[^>]*>/g,"");
                                         phraseString=phraseString.replace(/&nbsp;/g,"");
                                     }
@@ -98,6 +99,7 @@ module.exports={
                                                     //Rimuoviiamo entità HTML in eccesso
                                                     stringParameters=stringParameters.replace(/<\/?span[^>]*>/g,"");
                                                     stringParameters=stringParameters.replace(/<\?br[^>]*>/g,"");
+                                                    stringParameters=stringParameters.replace(/<\/?p[^>]*>/g,"");
                                                     stringParameters=stringParameters.replace(/&nbsp;/g,"");
                                                 }
                                         });
@@ -140,6 +142,7 @@ module.exports={
                                         //Rimuoviiamo entità HTML in eccesso
                                         stringAnswer=stringAnswer.replace(/<\/?span[^>]*>/g,"");
                                         stringAnswer=stringAnswer.replace(/<\?br[^>]*>/g,"");
+                                        stringAnswer=stringAnswer.replace(/<\/?p[^>]*>/g,"");
                                         stringAnswer=stringAnswer.replace(/&nbsp;/g," ");
                                     }
                                 }
@@ -193,6 +196,7 @@ module.exports={
                         stringAPI=stringAPI.replace(/<\/?br[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/<\/?img[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/<\/?span[^>]*>/g,"");
+                        stringAPI=stringAPI.replace(/<\/?p[^>]*>/g,"");
                         stringAPI=stringAPI.replace(/&nbsp;/g," ");
                         //1- nome
                         var nameAPI=stringAPI.substr(0,stringAPI.indexOf("§"));
@@ -297,6 +301,7 @@ module.exports={
                         stringCredentials=stringCredentials.replace(/<\/?br[^>]*>/g,"");
                         stringCredentials=stringCredentials.replace(/<\/?img[^>]*>/g,"");
                         stringCredentials=stringCredentials.replace(/<\/?span[^>]*>/g,"");
+                        stringCredentials=stringCredentials.replace(/<\/?p[^>]*>/g,"");
                         //ID project
                         agentXML.ProjectID=stringCredentials.substr(3,stringCredentials.indexOf('Chiave: ')-3).trim();
                         //Session Key
@@ -517,6 +522,7 @@ function splitTrainingPhrase(trainingPhrase,parameters){
     trainingPhrase=trainingPhrase.replace(/<\/?span[^>]*>/g,"");
     trainingPhrase=trainingPhrase.replace(/<\/?div[^>]*>/g,"");
     trainingPhrase=trainingPhrase.replace(/<\/?br[^>]*>/g,"");
+    trainingPhrase=trainingPhrase.replace(/<\/?p[^>]*>/g,"");
     trainingPhrase=trainingPhrase.replace(/&nbsp;/g," ");
 
     var splittedTrainingPhrase=[];
@@ -714,6 +720,9 @@ function splitAnswer(answer,parameters){
     }else{
         //Intent senza parametri ad esso associati
         answer=answer.replace(/<\/?font[^>]*>/g,"");
+        answer=answer.replace(/<\/?br[^>]*>/g,"");
+        answer=answer.replace(/<\/?span[^>]*>/g,"");
+        answer=answer.replace(/<\/?p[^>]*>/g,"");
         var answerAnalyze=answer.split(" ");
         for (h=0;h<answerAnalyze.length;h++){
             if (answerAnalyze[h].indexOf(".")>0){
