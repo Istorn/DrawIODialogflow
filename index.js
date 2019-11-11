@@ -39,9 +39,14 @@ console.log("Agente creato. Caricamento dati in corso...");
       intentcreated.push(response[0]);
       if (Array.isArray(response)){
         console.log(response[0].displayName+" Creato.");
-        updateIntent(response[0],intent).then((response)=>{
-          console.log("Contesti per l'intent "+response[0].displayName+" integrati.");
-      });
+        if ((intent.inputContexts.length>0)||(intent.outputContexts.length>0)){
+            updateIntent(response[0],intent).then((response)=>{
+              console.log("Contesti per l'intent "+response[0].displayName+" integrati.");
+          });
+        }else{
+          console.log("L'intent "+response[0].displayName+" non ha contesti di input/ouput da integrare.");
+        }
+        
       }else{
         console.error("Errore in fase di generazione per l'intent "+intent.name+". L'intent è già stato integrato nell'agente.");
       }
