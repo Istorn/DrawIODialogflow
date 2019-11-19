@@ -33,8 +33,6 @@ module.exports={
                     if (graphXMLCells[c].ATTR.style.indexOf('edgeStyle')>=0){
                         //Freccia
                         var followup=new ClassfollowupXML();
-                        //Prendiamo il padre della sezione più in basso.
-
                         followup.father=graphXMLCells[c].ATTR.source;
                         graphXMLCells.forEach((cell)=>{
                             if (cell.ATTR.id==followup.father){
@@ -48,19 +46,13 @@ module.exports={
                     }else if (graphXMLCells[c].ATTR.style.indexOf("childLayout")>=0){
                         //Intent/Fulfillment
                         var valueXML=graphXMLCells[c].ATTR.value;
-                        
-                            //Spezziamo il contenuto del value
 
-                            //Andiamo a prendere il necessario da ogni sezione
-    
-                            //Normalizziamo i caratteri speciali
                             valueXML.replace("&lt;","<");
                             valueXML.replace("&gt;",">");
                             valueXML.replace("&quot;","\"");
                             valueXML.replace("&amp;","\"");
                             //Nome
                             var name=valueXML;
-                            
                             //Sezione 1: frasi
                             var phraseString="";
                             graphXMLCells.forEach((cell)=>{
@@ -642,7 +634,6 @@ function splitAnswer(answer,parameters){
     var i=0;
     var readerString=answer;
     while (i<answer.length){
-
             //Leggiamo finchè non troviamo <font color="        
         if ((answer[i]=="<") && (answer[i+1]=="f")){
             //2- Abbiamo individuato un termine chiave
@@ -670,30 +661,6 @@ function splitAnswer(answer,parameters){
     
                 });
             }
-            
-            /*
-
-            Parte non necessaria
-            //Andiamo a verificare in base al colore a quale parameter associarlo
-            var color=termTAG.substr(termTAG.indexOf("color=\"#")+"color=\"#".length+1,termTAG.indexOf("\">")+"\">".length-"color=\"#".length);
-            color=color.substr(0,color.indexOf("\">"));
-            //Andiamo a cercare nei parameters il parameter corrispondente
-            parameters.forEach((parameter)=>{
-                if (parameter.color==color){
-                    //L'abbiamo trovato, proseguiamo
-                    //In questo caso andiamo ad aggiungere il termine chiave ai valori del paramter in questione
-                    var value=termTAG.substr(termTAG.indexOf("\">")+"\">".length,termTAG.indexOf("</font>")-8);
-                    value=value.substr(0,value.indexOf("</font>"));   
-                    parameter.userValues.push(value);
-                    //E infine, aggiungiamo alla training phrase divisa
-                    splittedAnswer.push({
-                        text: value,
-                        entityType:"@"+parameter.name,
-                        alias:parameter.name,
-                    });
-                }
-            });
-            */
             //Incrementiamo i per bypassare il pezzo appena considerato
             i+=termTAG.length;
             readerString=readerString.substr(termTAG.length,readerString.length-termTAG.length);
@@ -711,7 +678,6 @@ function splitAnswer(answer,parameters){
         });
         i=answer.length;
     }
-
     //Torniamo la training phrase divisa opportunamente
     return splittedAnswer;
     }else{
@@ -728,5 +694,5 @@ function splitAnswer(answer,parameters){
         }
         return answerAnalyze;
     }
-    
+
 }
