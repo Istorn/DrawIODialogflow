@@ -1,3 +1,5 @@
+//Fullfillment file. Necessario qual ora l'agente debba invocare servizi di terze parti esterni a Dialogflow
+
 'use strict';
             const axios=require('axios');
             const functions = require('firebase-functions');

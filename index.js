@@ -2,16 +2,14 @@
 
 'use strict';
 
-//TODO https://blog.dialogflow.com/post/create-and-manage-entities-with-api/
+
 
 const admin=require('firebase-admin');
 
 
 const dialogflow = require('dialogflow');
 
-// Read in credentials from file. To get it, follow instructions here, but
-// choose 'API Admin' instead of 'API Client':
-// https://dialogflow.com/docs/reference/v2-auth-setup
+
 const credentials = require('./credenziali.json');
 
 const agentClient = new dialogflow.IntentsClient({
