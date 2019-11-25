@@ -481,6 +481,11 @@ module.exports={
                     for (i=0;i<riga.output.length;i++){
                         riga.output[i]=translateIDIntent(riga.output[i],agentXML);
                     }
+
+                    //E integriamo negli intent stessi
+                    var intentToIntegrate=agentXML.intents.filter((intent)=>{return intent.name==riga.id})[0];
+                    intentToIntegrate.inputContexts=riga.input;
+                    intentToIntegrate.outputContexts=riga.output;
                     
                 });
             }
@@ -523,6 +528,17 @@ function splitTrainingPhrase(trainingPhrase,parameters){
         var i=0;
         //Dobbiamo separarla per capire quali pezzi sono base e quali altri invece provengono dal contesto conversazionale del bot
         while (trainingPhrase.length>0){
+            //Verifichiamo se ci siano ANCORA parole chiave
+            if (trainingPhrase.indexOf("<font")<0){
+                if (chars.length>0){
+                    splittedTrainingPhrase.push({
+                        text: chars
+                    });
+                    chars="";
+    
+                }
+                trainingPhrase="";
+            }
             //Leggiamo finchè non troviamo <font color="        
             if ((trainingPhrase[i]=="<") && (trainingPhrase[i+1]=="f")){
                 //2- Abbiamo individuato un termine chiave

@@ -30,12 +30,12 @@ console.log("Agente creato. Caricamento dati in corso...");
   
   var intentcreated=[];
 
- agentXML.intents.forEach((intent)=>{
-  createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters, intent.WebHookState)
-  .then((response)=>{
-      //Verifichiamo se l'intent è stato creato. In tal caso, dobbiamo integrare i contesti del dialogo in un update
-      intentcreated.push(response[0]);
-      if (Array.isArray(response)){
+  agentXML.intents.forEach((intent)=>{
+    createIntent(projectId,intent.name,intent.id,intent.trainingPhrases,intent.risposte,intent.followUps,intent.parameters, intent.WebHookState)
+    .then((response)=>{
+        //Verifichiamo se l'intent è stato creato. In tal caso, dobbiamo integrare i contesti del dialogo in un update
+        intentcreated.push(response[0]);
+        if (Array.isArray(response)){
         console.log(response[0].displayName+" Creato.");
         if ((intent.inputContexts.length>0)||(intent.outputContexts.length>0)){
             updateIntent(response[0],intent).then((response)=>{

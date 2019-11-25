@@ -1,105 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="www.draw.io" modified="2019-10-28T14:44:33.308Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36" etag="AFT-GjWCr6MRymNWmcW3" version="12.1.7" type="google" pages="1">
-  <diagram id="av5g-bShAgav98G27TN7" name="Page-1">
-    <mxGraphModel dx="1661" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+<mxfile host="www.draw.io" modified="2019-11-25T13:50:53.430Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="YrZP8XLSO6eJsLGE1gXV" version="12.3.0" type="google" pages="1">
+  <diagram id="9HFeVxZnl6DxA2PZ_x68" name="Page-1">
+    <mxGraphModel dx="1113" dy="695" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-1" value="Benvenuto" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
-          <mxGeometry x="70" y="70" width="520" height="380" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-3" value="benvenuto" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="150" y="110" width="550" height="380" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-2" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="m0-oef0f0qb-4m2KXaeG-1" vertex="1">
-          <mxGeometry y="20" width="520" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-4" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-3" vertex="1">
+          <mxGeometry y="20" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="hRAsFazEqZHqzmIs6ujT-2" value="Ciao sono &lt;font color=&quot;#ff0000&quot;&gt;Lorenzo&lt;/font&gt;§Buongiorno mi chiamo &lt;font color=&quot;#ff0000&quot;&gt;Silvia&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="m0-oef0f0qb-4m2KXaeG-2" vertex="1">
-          <mxGeometry x="110" y="50" width="320" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-7" value="Salve, sono&amp;nbsp;&lt;font color=&quot;#ff3333&quot;&gt;Marcella &lt;/font&gt;e mi devo dirigere a &lt;font color=&quot;#4d9900&quot;&gt;Dateo&lt;/font&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-4" vertex="1">
+          <mxGeometry x="108" y="50" width="270" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-3" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="m0-oef0f0qb-4m2KXaeG-1" vertex="1">
-          <mxGeometry y="140" width="520" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-5" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-3" vertex="1">
+          <mxGeometry y="140" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="hRAsFazEqZHqzmIs6ujT-3" value="&lt;font color=&quot;#ff0000&quot;&gt;nome&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="m0-oef0f0qb-4m2KXaeG-3" vertex="1">
-          <mxGeometry x="100" y="40" width="320" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-8" value="&lt;font color=&quot;#ff3333&quot;&gt;nome&lt;/font&gt;§&lt;font color=&quot;#4d9900&quot;&gt;stazionepartenza&lt;/font&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-5" vertex="1">
+          <mxGeometry x="220" y="50" width="140" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-4" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="m0-oef0f0qb-4m2KXaeG-1" vertex="1">
-          <mxGeometry y="260" width="520" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-6" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-3" vertex="1">
+          <mxGeometry y="260" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="hRAsFazEqZHqzmIs6ujT-12" value="Salve &lt;font color=&quot;#ff0000&quot;&gt;nome&lt;/font&gt; come posso aiutarti?§Ciao &lt;font color=&quot;#ff0000&quot;&gt;nome&lt;/font&gt; come la posso aiutare?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="m0-oef0f0qb-4m2KXaeG-4" vertex="1">
-          <mxGeometry x="169" y="50" width="190" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-9" value="Buongiorno &lt;font color=&quot;#ff3333&quot;&gt;nome&lt;/font&gt;, come preferisce dirigersi a &lt;font color=&quot;#4d9900&quot;&gt;stazionepartenza&lt;/font&gt;? In treno, in tram o in pullman?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-6" vertex="1">
+          <mxGeometry x="30" y="50" width="520" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-6" value="Stazione1" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
-          <mxGeometry x="80" y="507" width="500" height="380" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-10" value="&lt;div style=&quot;color: rgb(0 , 0 , 255) ; font-family: &amp;#34;menlo&amp;#34; , &amp;#34;monaco&amp;#34; , &amp;#34;courier new&amp;#34; , monospace ; font-weight: normal ; line-height: 18px ; white-space: pre&quot;&gt;&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;ID: &lt;/font&gt;&lt;span style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;test1drawio-ttlbdt&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(0 , 0 , 255) ; font-family: &amp;#34;menlo&amp;#34; , &amp;#34;monaco&amp;#34; , &amp;#34;courier new&amp;#34; , monospace ; font-weight: normal ; line-height: 18px ; white-space: pre&quot;&gt;&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;Chiave: 0548234f-5393-097a-be22-9aa5ff4f2356&lt;/font&gt;&lt;/div&gt;" style="label;whiteSpace=wrap;html=1;image=img/clipart/Gear_128x128.png" parent="1" vertex="1">
+          <mxGeometry x="23" y="30" width="390" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-7" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="m0-oef0f0qb-4m2KXaeG-6" vertex="1">
-          <mxGeometry y="20" width="500" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-11" value="viaggiotreno" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="137.5" y="600" width="550" height="380" as="geometry"/>
         </mxCell>
-        <mxCell id="hRAsFazEqZHqzmIs6ujT-5" value="&lt;span style=&quot;text-align: center ; white-space: normal&quot;&gt;voglio partire da&amp;nbsp;&lt;/span&gt;&lt;font color=&quot;#0000ff&quot; style=&quot;text-align: center ; white-space: normal&quot;&gt;Milano&lt;/font&gt;&lt;span style=&quot;text-align: center ; white-space: normal&quot;&gt;§parto da&amp;nbsp;&lt;/span&gt;&lt;font color=&quot;#0000ff&quot; style=&quot;text-align: center ; white-space: normal&quot;&gt;Genova&lt;/font&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="m0-oef0f0qb-4m2KXaeG-7" vertex="1">
-          <mxGeometry x="170" y="40" width="240" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-12" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-11" vertex="1">
+          <mxGeometry y="20" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-8" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="m0-oef0f0qb-4m2KXaeG-6" vertex="1">
-          <mxGeometry y="140" width="500" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-13" value="In treno" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-12" vertex="1">
+          <mxGeometry x="108" y="50" width="60" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="hRAsFazEqZHqzmIs6ujT-7" value="&lt;font color=&quot;#0000ff&quot;&gt;stazionepartenza&lt;/font&gt;" style="text;html=1;" parent="m0-oef0f0qb-4m2KXaeG-8" vertex="1">
-          <mxGeometry x="203" y="50" width="120" height="30" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-14" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-11" vertex="1">
+          <mxGeometry y="140" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-9" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="m0-oef0f0qb-4m2KXaeG-6" vertex="1">
-          <mxGeometry y="260" width="500" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-15" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-11" vertex="1">
+          <mxGeometry y="260" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="hRAsFazEqZHqzmIs6ujT-9" value="ok perfetto&amp;nbsp;&lt;font color=&quot;#ff0000&quot;&gt;benvenuto.nome&lt;/font&gt;, vuoi partire da&amp;nbsp;&lt;font color=&quot;#0000ff&quot;&gt;stazionepartenza&lt;/font&gt;&amp;nbsp;e dove vuoi dirigerti?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="m0-oef0f0qb-4m2KXaeG-9" vertex="1">
-          <mxGeometry x="40" y="50" width="460" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-16" value="Vuole dirigersi a&amp;nbsp;&lt;span style=&quot;color: rgb(77 , 153 , 0)&quot;&gt;benvenuto.stazionepartenza &lt;/span&gt;in treno. Da dove parte&amp;nbsp;&lt;span style=&quot;color: rgb(255 , 51 , 51)&quot;&gt;benvenuto.nome&lt;/span&gt;?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-15" vertex="1">
+          <mxGeometry x="30" y="50" width="480" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="m0-oef0f0qb-4m2KXaeG-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="m0-oef0f0qb-4m2KXaeG-4" target="m0-oef0f0qb-4m2KXaeG-6" edge="1">
+        <mxCell id="yO6B6VoY10Um188o_ECq-18" value="viaggiotram" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="792" y="620" width="660" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-19" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-18" vertex="1">
+          <mxGeometry y="20" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-37" value="In tram." style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-19" vertex="1">
+          <mxGeometry x="310" y="60" width="60" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-21" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-18" vertex="1">
+          <mxGeometry y="140" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-22" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-18" vertex="1">
+          <mxGeometry y="260" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-23" value="Da quale fermata desidera partire&amp;nbsp;&lt;span style=&quot;color: rgb(77 , 153 , 0)&quot;&gt;benvenuto.nome&lt;/span&gt;?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-22" vertex="1">
+          <mxGeometry x="185" y="41" width="290" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-27" value="viaggiopullman" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="1575" y="600" width="660" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-28" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-27" vertex="1">
+          <mxGeometry y="20" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-29" value="In pullman" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-28" vertex="1">
+          <mxGeometry x="108" y="50" width="70" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-30" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-27" vertex="1">
+          <mxGeometry y="140" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-31" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-27" vertex="1">
+          <mxGeometry y="260" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-32" value="Vuole andare in pullman a &lt;font color=&quot;#4d9900&quot;&gt;benvenuto.stazionepartenza&lt;/font&gt;, partendo da dove &lt;font color=&quot;#4d9900&quot;&gt;benvenuto.nome&lt;/font&gt;?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-31" vertex="1">
+          <mxGeometry x="30" y="50" width="510" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-39" value="viaggiotreno2" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="120" y="1126" width="550" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-40" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-39" vertex="1">
+          <mxGeometry y="20" width="550" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-41" value="Da &lt;font color=&quot;#0000ff&quot;&gt;Villapizzone&lt;/font&gt;." style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-40" vertex="1">
+          <mxGeometry x="108" y="50" width="100" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-42" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-39" vertex="1">
+          <mxGeometry y="140" width="550" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-46" value="&lt;font color=&quot;#0000ff&quot;&gt;treno&lt;/font&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-42" vertex="1">
+          <mxGeometry x="243" y="50" width="40" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-43" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-39" vertex="1">
+          <mxGeometry y="260" width="550" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-44" value="Vuole arrivare a &lt;font color=&quot;#0000ff&quot;&gt;treno&lt;/font&gt; da&amp;nbsp;&lt;span style=&quot;color: rgb(77 , 153 , 0)&quot;&gt;benvenuto.stazionepartenza&lt;/span&gt;, corretto&amp;nbsp;&lt;span style=&quot;color: rgb(255 , 51 , 51)&quot;&gt;benvenuto.nome&lt;/span&gt;?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-43" vertex="1">
+          <mxGeometry x="30" y="50" width="450" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="yO6B6VoY10Um188o_ECq-15" target="yO6B6VoY10Um188o_ECq-39" edge="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-1" value="Stazione2" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" vertex="1" parent="1">
-          <mxGeometry x="-20" y="990" width="700" height="380" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-47" value="viaggiotreno3" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="100" y="1620" width="550" height="380" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-2" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-1">
-          <mxGeometry y="20" width="700" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-48" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-47" vertex="1">
+          <mxGeometry y="20" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-3" value="&lt;div style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;white-space: normal&quot;&gt;Mi dirigo a &lt;font color=&quot;#00ff00&quot;&gt;Firenze&lt;/font&gt;§a &lt;font color=&quot;#00ff00&quot;&gt;Napoli&lt;/font&gt;§verso &lt;font color=&quot;#00ff00&quot;&gt;Basilea&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-2">
-          <mxGeometry x="170" y="40" width="240" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-49" value="Corretto." style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-48" vertex="1">
+          <mxGeometry x="108" y="50" width="60" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-4" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-1">
-          <mxGeometry y="140" width="700" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-50" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-47" vertex="1">
+          <mxGeometry y="140" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-5" value="&lt;font color=&quot;#00ff00&quot;&gt;stazionedestinazione&lt;/font&gt;" style="text;html=1;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-4">
-          <mxGeometry x="203" y="50" width="120" height="30" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-51" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-47" vertex="1">
+          <mxGeometry y="260" width="550" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-6" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-1">
-          <mxGeometry y="260" width="700" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-52" value="Bene, ho trovato questi percorsi..." style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-51" vertex="1">
+          <mxGeometry x="30" y="50" width="190" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-7" value="Tutto chiaro&amp;nbsp;&lt;font color=&quot;#ff0000&quot;&gt;benvenuto.nome&lt;/font&gt;, vuoi partire da &lt;font color=&quot;#0000ff&quot;&gt;stazione1.stazionepartenza&lt;/font&gt;&amp;nbsp;per arrivare a &lt;font color=&quot;#00ff00&quot;&gt;stazionedestinazione&lt;/font&gt; dico bene?" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-6">
-          <mxGeometry x="40" y="50" width="660" height="20" as="geometry"/>
-        </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="m0-oef0f0qb-4m2KXaeG-9" target="0WU0IiVzRddJUgDPFvJG-1">
+        <mxCell id="yO6B6VoY10Um188o_ECq-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.515;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="yO6B6VoY10Um188o_ECq-43" target="yO6B6VoY10Um188o_ECq-47" edge="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-16" value="RicercaStazioni" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" vertex="1" parent="1">
-          <mxGeometry x="80" y="1440" width="500" height="380" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-55" value="viaggiotram2" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="740" y="1150" width="835" height="380" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-17" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-16">
-          <mxGeometry y="20" width="500" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-56" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-55" vertex="1">
+          <mxGeometry y="20" width="835" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-18" value="&lt;div style=&quot;text-align: center&quot;&gt;&lt;span style=&quot;white-space: normal&quot;&gt;Precisamente§Esatto§Sì§Dici bene&lt;/span&gt;&lt;/div&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-17">
-          <mxGeometry x="170" y="40" width="200" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-69" value="Da &lt;font color=&quot;#009999&quot;&gt;Cenisio&lt;/font&gt;." style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-56" vertex="1">
+          <mxGeometry x="390" y="30" width="80" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-19" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-16">
-          <mxGeometry y="140" width="500" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-57" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-55" vertex="1">
+          <mxGeometry y="140" width="835" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-21" value="API" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-16">
-          <mxGeometry y="260" width="500" height="120" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-70" value="&lt;font color=&quot;#009999&quot;&gt;tram&lt;/font&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-57" vertex="1">
+          <mxGeometry x="417.5" y="50" width="40" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-24" value="ApiTrenitalia" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" vertex="1" parent="0WU0IiVzRddJUgDPFvJG-21">
-          <mxGeometry x="203" y="50" width="80" height="20" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-58" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-55" vertex="1">
+          <mxGeometry y="260" width="835" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="0WU0IiVzRddJUgDPFvJG-6" target="0WU0IiVzRddJUgDPFvJG-16">
+        <mxCell id="yO6B6VoY10Um188o_ECq-59" value="Sono spiacente&amp;nbsp;&lt;span style=&quot;color: rgb(77 , 153 , 0)&quot;&gt;benvenuto.nome&lt;/span&gt;, ma non ho trovato percorsi disponibili in tram da &lt;font color=&quot;#009999&quot;&gt;tram&lt;/font&gt; a &lt;font color=&quot;#4d9900&quot;&gt;benvenuto.stazionepartenza&lt;/font&gt;." style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-58" vertex="1">
+          <mxGeometry x="185" y="41" width="650" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-60" value="viaggiopullman2" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" parent="1" vertex="1">
+          <mxGeometry x="1620" y="1126" width="660" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-61" value="Frasi" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-60" vertex="1">
+          <mxGeometry y="20" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-62" value="Da &lt;font color=&quot;#ffff00&quot;&gt;San Babila&lt;/font&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-61" vertex="1">
+          <mxGeometry x="108" y="50" width="90" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-63" value="Parametri" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-60" vertex="1">
+          <mxGeometry y="140" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-71" value="&lt;font color=&quot;#ffff00&quot;&gt;pullman&lt;/font&gt;" style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-63" vertex="1">
+          <mxGeometry x="270" y="40" width="60" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-64" value="Risposte" style="swimlane;html=1;startSize=20;horizontal=0;" parent="yO6B6VoY10Um188o_ECq-60" vertex="1">
+          <mxGeometry y="260" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-65" value="Ok &lt;font color=&quot;#4d9900&quot;&gt;benvenuto.nome&lt;/font&gt;, da &lt;font color=&quot;#ffff00&quot;&gt;pullman&lt;/font&gt; a &lt;font color=&quot;#4d9900&quot;&gt;benvenuto.stazionepartenza&lt;/font&gt;, può prendere la linea..." style="text;html=1;resizable=0;points=[];autosize=1;align=left;verticalAlign=top;spacingTop=-4;" parent="yO6B6VoY10Um188o_ECq-64" vertex="1">
+          <mxGeometry x="30" y="50" width="480" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="yO6B6VoY10Um188o_ECq-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.488;entryY=-0.008;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="yO6B6VoY10Um188o_ECq-31" target="yO6B6VoY10Um188o_ECq-60" edge="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-39" value="&lt;font color=&quot;#000000&quot;&gt;Nome: ApiTrenitalia;&lt;br&gt;&lt;br&gt;Indirizzo: https://www.trenitalia.com?searchTravels;&lt;br&gt;&lt;br&gt;&lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt;Risposta: Il primo treno che parte da&amp;nbsp;&lt;/font&gt;stazione1.stazionepartenza&lt;font color=&quot;#000000&quot;&gt;&amp;nbsp;e arriva&amp;nbsp;&lt;br&gt;a&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#00ff00&quot;&gt;stazione2.stazionedestinazione&lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt;&amp;nbsp;è il seguente:&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#ff3333&quot;&gt;risposta[0].nometreno&lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt;&amp;nbsp;alle ore&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#ff3333&quot;&gt;risposta[0].orario&lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt;;&lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;br&gt;Destination: stazione1.stazionepartenza;&lt;br&gt;&lt;br&gt;Arrival: stazione2.stazionedestinazione;&lt;br&gt;&lt;/font&gt;" style="shape=dataStorage;whiteSpace=wrap;html=1;fontColor=#0000FF;" vertex="1" parent="1">
-          <mxGeometry x="710" y="50" width="470" height="380" as="geometry"/>
+        <mxCell id="yO6B6VoY10Um188o_ECq-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="yO6B6VoY10Um188o_ECq-22" target="yO6B6VoY10Um188o_ECq-55" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="0WU0IiVzRddJUgDPFvJG-41" value="&lt;div style=&quot;font-family: &amp;#34;menlo&amp;#34; , &amp;#34;monaco&amp;#34; , &amp;#34;courier new&amp;#34; , monospace ; font-weight: normal ; line-height: 18px ; white-space: pre&quot;&gt;&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;ID: &lt;/font&gt;&lt;span style=&quot;font-family: &amp;#34;menlo&amp;#34; , &amp;#34;monaco&amp;#34; , &amp;#34;courier new&amp;#34; , monospace ; background-color: rgb(255 , 255 , 255)&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;test1drawio-ttlbdt&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;menlo&amp;#34; , &amp;#34;monaco&amp;#34; , &amp;#34;courier new&amp;#34; , monospace ; font-weight: normal ; line-height: 18px ; white-space: pre&quot;&gt;&lt;font color=&quot;#000000&quot; style=&quot;background-color: rgb(255 , 255 , 255)&quot;&gt;Chiave: 0548234f-5393-097a-be22-9aa5ff4f2356&lt;/font&gt;&lt;/div&gt;" style="label;whiteSpace=wrap;html=1;image=img/clipart/Gear_128x128.png;fontColor=#0000FF;" vertex="1" parent="1">
-          <mxGeometry x="760" y="500" width="380" height="60" as="geometry"/>
+        <mxCell id="O8VIE0oUqCp7aPuHgV7p-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="yO6B6VoY10Um188o_ECq-6" target="yO6B6VoY10Um188o_ECq-11" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="55mBXRfm9m4uHXNC4Dru-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.513;entryY=-0.007;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="yO6B6VoY10Um188o_ECq-6" target="yO6B6VoY10Um188o_ECq-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="530"/>
+              <mxPoint x="1119" y="530"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="55mBXRfm9m4uHXNC4Dru-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="yO6B6VoY10Um188o_ECq-6" target="yO6B6VoY10Um188o_ECq-27">
+          <mxGeometry relative="1" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
